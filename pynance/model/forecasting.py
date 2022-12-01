@@ -17,7 +17,7 @@ class TFnaive(torch.nn.Module):
         #                          hidden_size=hidden_size,
         #                          num_layers=num_layers,
         #                          bias=True,
-        #                          batch_first=False,
+        #                          batch_first=True,
         #                          dropout=0,
         #                          proj_size=input_size)
 
@@ -26,7 +26,7 @@ class TFnaive(torch.nn.Module):
                                      hidden_size=hidden_size,
                                      num_layers=num_layers,
                                      bias=True,
-                                     batch_first=False,
+                                     batch_first=True,
                                      dropout=0),
                         torch.nn.Linear(in_features=hidden_size,
                                         out_features=input_size,
@@ -34,11 +34,11 @@ class TFnaive(torch.nn.Module):
         # for GRU, the output size is the hidden size, which means we need a linear layer afterwards to project
 
     def forward(self, x, future=0):
-        x = self.rnn(x)[0] # size is sequence length x batch size x output_size = input_size
+        x, h = self.rnn(x) # size is batch size x sequence length x output_size = input_size
         if(future > 0):
             outputs = [x]
             for k in future:
-                x = self.rnn(x)[0]
+                x, h = self.rnn(x)
                 outputs.append(x)
             return self.cat(outputs, dim=0) # for now 0, but I don't know if it's best.
         return x
