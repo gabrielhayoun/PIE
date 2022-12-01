@@ -19,28 +19,28 @@ class TFnaive(torch.nn.Module):
         #                          bias=True,
         #                          batch_first=True,
         #                          dropout=0,
-        #                          proj_size=input_size)
+        #                          proj_size=hidden_size)
 
-        self.rnn = torch.nn.Sequential(*[
-                        torch.nn.GRU(input_size=input_size,
-                                     hidden_size=hidden_size,
-                                     num_layers=num_layers,
-                                     bias=True,
-                                     batch_first=True,
-                                     dropout=0),
-                        torch.nn.Linear(in_features=hidden_size,
-                                        out_features=input_size,
-                                        bias=True)])                        
-        # for GRU, the output size is the hidden size, which means we need a linear layer afterwards to project
+        self.rnn = torch.nn.GRU(input_size=input_size,
+                                hidden_size=hidden_size,
+                                num_layers=num_layers,
+                                bias=True,
+                                batch_first=True,
+                                dropout=0)
+        self.output_layer = torch.nn.Linear(in_features=hidden_size,
+                                             out_features=input_size,
+                                             bias=True)                        
 
     def forward(self, X, future=0):
         if(len(X.shape) == 2):
             X = torch.unsqueeze(X, dim=2)
         X, h = self.rnn(X) # size is batch size x sequence length x output_size = input_size
+        X = self.output_layer(X)
         if(future > 0):
             outputs = [X]
             for k in future:
                 X, h = self.rnn(X)
+                X = self.output_layer(X)
                 outputs.append(X)
             return self.cat(outputs, dim=0) # for now 0, but I don't know if it's best.
         return X
@@ -50,7 +50,7 @@ class TFnaive(torch.nn.Module):
             X = torch.unsqueeze(X, dim=2)
         predicions = []
         for k in range(window):
-            predicions.append(self.rnn(X))
+            predicions.append(self.output_layer(self.rnn(X)[0]))
 
     def init_weights(self):
         pass
