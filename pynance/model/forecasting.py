@@ -33,17 +33,21 @@ class TFnaive(torch.nn.Module):
                                         bias=True)])                        
         # for GRU, the output size is the hidden size, which means we need a linear layer afterwards to project
 
-    def forward(self, x, future=0):
-        x, h = self.rnn(x) # size is batch size x sequence length x output_size = input_size
+    def forward(self, X, future=0):
+        if(len(X.shape) == 2):
+            X = torch.unsqueeze(X, dim=2)
+        X, h = self.rnn(X) # size is batch size x sequence length x output_size = input_size
         if(future > 0):
-            outputs = [x]
+            outputs = [X]
             for k in future:
-                x, h = self.rnn(x)
-                outputs.append(x)
+                X, h = self.rnn(X)
+                outputs.append(X)
             return self.cat(outputs, dim=0) # for now 0, but I don't know if it's best.
-        return x
+        return X
 
     def predict(self, X, window=10):
+        if(len(X.shape) == 2):
+            X = torch.unsqueeze(X, dim=2)
         predicions = []
         for k in range(window):
             predicions.append(self.rnn(X))
