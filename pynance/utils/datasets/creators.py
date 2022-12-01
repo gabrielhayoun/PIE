@@ -50,11 +50,10 @@ class StockValuePredictionDatasetCreator(DatasetCreator):
     def get_train_sets(self, ratio, return_type, window):
         super().get_train_sets(ratio, return_type)
         data = self.train_df[pynance.utils.conventions.close_name].values
-        train_length = int(len(data) * ratio)
-        valid_length = len(data) - train_length
-
         if(return_type==self.torch_return_type):
-            dataset = pynance.utils.datasets.torch.SlidingWindowDataset(data, window)            
+            dataset = pynance.utils.datasets.torch.SlidingWindowDataset(data, window)  
+            train_length = int(len(dataset) * ratio)
+            valid_length = len(dataset) - train_length
             train_set, valid_set = torch.utils.data.random_split(dataset, (train_length, valid_length))
             return train_set, valid_set
         elif(return_type==self.numpy_return_type):
