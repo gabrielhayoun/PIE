@@ -31,26 +31,24 @@ class TFnaive(torch.nn.Module):
                                              out_features=input_size,
                                              bias=True)                        
 
-    def forward(self, X, future=0):
-        if(len(X.shape) == 2):
-            X = torch.unsqueeze(X, dim=2)
+    def forward(self, X, return_intermediary=False):
+        assert(len(X.shape)==3)
         X, h = self.rnn(X) # size is batch size x sequence length x output_size = input_size
         X = self.output_layer(X)
-        if(future > 0):
-            outputs = [X]
-            for k in future:
-                X, h = self.rnn(X)
-                X = self.output_layer(X)
-                outputs.append(X)
-            return self.cat(outputs, dim=0) # for now 0, but I don't know if it's best.
-        return X
+        if(return_intermediary):
+            return X
+        return X[:, -1, :]
 
     def predict(self, X, window=10):
-        if(len(X.shape) == 2):
-            X = torch.unsqueeze(X, dim=2)
-        predicions = []
-        for k in range(window):
-            predicions.append(self.output_layer(self.rnn(X)[0]))
+        X_base = X
+        with torch.no_grad():
+            X_pred_on_base = self.forward(X, return_intermediary=True)
+            X_ = torch.unsqueeze(X_pred_on_base[:, -1, :], dim=1)
+            X = torch.cat([X_base, X_], dim=1)
+            for k in range(window):
+                X_ = self.forward(X)
+                X = torch.cat([X, torch.unsqueeze(X_, dim=1)], dim=1)
+        return X, X_pred_on_base[:, :-1, :]
 
     def init_weights(self):
         pass
