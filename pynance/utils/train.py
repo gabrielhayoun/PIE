@@ -42,7 +42,7 @@ def train(epochs,
 
         if avg_vloss < best_vloss:
             best_vloss = avg_vloss
-            model_path = saving_path / 'model_{}_{}_{}'.format(saving_name, timestamp, epoch)
+            model_path = saving_path / 'model_state_dict_{}_{}_{}.pt'.format(saving_name, timestamp, epoch)
             best_model_state = model.state_dict()
 
     if(best_model_state is not None):
@@ -67,12 +67,10 @@ def train_one_epoch(epoch,
         optimizer.step()
 
         running_loss += loss.item()
-        if i % 1000 == 999:
-            last_loss = running_loss / 1000 # loss per batch
-            # print('  batch {} loss: {}'.format(i + 1, last_loss))
-            tb_x = epoch * len(training_loader) + i + 1
-            tb_writer.add_scalar('Loss/train', last_loss, tb_x)
-            running_loss = 0.
+        
+    last_loss = running_loss / len(training_loader)
+    tb_x = epoch * len(training_loader) + i + 1
+    tb_writer.add_scalar('Loss/train', last_loss, tb_x)
     return last_loss
 
 
