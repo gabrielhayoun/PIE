@@ -2,7 +2,8 @@ import abc
 import pandas as pd
 import torch
 import pynance
-import sklearn
+from sklearn.model_selection import train_test_split
+import numpy as np
 
 class DatasetCreator(abc.ABC):
     torch_return_type = "torch"
@@ -95,7 +96,7 @@ class StockValueRegressionDatasetCreator(DatasetCreator):
         targets = self.train_df.loc[:,
                                     ~self.train_df.columns.isin(
                                         [self.market,
-                                         pynance.utils.conventions.date_name])]
+                                         pynance.utils.conventions.date_name])].values
         if(return_type==self.torch_return_type):
             market = torch.Tensor(market)
             targets = torch.Tensor(targets)
@@ -105,21 +106,24 @@ class StockValueRegressionDatasetCreator(DatasetCreator):
             train_set, valid_set = torch.utils.data.random_split(dataset, (train_length, valid_length))
             return train_set, valid_set
         elif(return_type==self.numpy_return_type):
-            X_train, X_valid, y_train, y_valid = sklearn.model_selection.train_test_split(market, targets, train_size=ratio)
+            X_train, X_valid, y_train, y_valid = train_test_split(market, targets, train_size=ratio)
+            X_train = np.expand_dims(X_train, axis=1)
+            X_valid = np.expand_dims(X_valid, axis=1)
             return X_train, X_valid, y_train, y_valid
             # maybe do something here so it returns something similar to pytorch (that we can use exactly the same way)
 
-    def get_test_set(self, return_type, window):
+    def get_test_set(self, return_type):
         super().get_test_set(return_type)
-        market = self.train_df[self.market].values
-        targets = self.train_df.loc[:,
-                                    ~self.train_df.columns.isin(
+        market = self.test_df[self.market].values
+        targets = self.test_df.loc[:,
+                                    ~self.test_df.columns.isin(
                                         [self.market,
-                                         pynance.utils.conventions.date_name])]
+                                         pynance.utils.conventions.date_name])].values
         if(return_type==self.torch_return_type):
             market = torch.Tensor(market)
             targets = torch.Tensor(targets)
             dataset = torch.utils.data.TensorDataset(market, targets)  
             return dataset
         elif(return_type==self.numpy_return_type):
+            market = np.expand_dims(market, axis=1)
             return market, targets
