@@ -23,7 +23,7 @@ def get_path_to_results():
     return Path(get_item_from_user_cfg("pie", "path_to_results"))
 
 def get_path_to_pretrained_models():
-    return Path(get_item_from_user_cfg("pie", "path_to_pretrained_models"))
+    return Path(get_item_from_user_cfg("pie", "path_to_trained_models"))
 
 def get_path_to_config_files():
     return Path(get_item_from_user_cfg("pie", "path_to_configuration_file"))
