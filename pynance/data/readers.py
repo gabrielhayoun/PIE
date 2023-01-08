@@ -1,4 +1,5 @@
 from pynance.utils import user
+from pynance.utils import conventions
 import pandas_datareader.data as web 
 import yfinance as yf
 
@@ -64,7 +65,7 @@ def write_idx_txt(tag_list, name, verbose = False):
         print('Done')
 
 
-def get_financial_datas(x, start = '1999-01-01', conversion = True):
+def get_financial_datas(x, start = '1999-01-01', end=None, conversion = True, remove_nan=True):
     """ Usage : get_financial_datas(x, start = '1999-01-01', conversion = True)
 
     Args:
@@ -77,11 +78,11 @@ def get_financial_datas(x, start = '1999-01-01', conversion = True):
     """
     stk_data = {}
     for i in x:
-        stk_data[i] = yf.download(i, start = start)
+        stk_data[i] = yf.download(i, start=start, end=end)
 
     if conversion:
         conversion_us = 'DEXUSEU'
-        ccy_data = web.DataReader(conversion_us, 'fred', start=start)
+        ccy_data = web.DataReader(conversion_us, 'fred', start=start, end=end)
         ccy_data = 1/ccy_data
 
 
@@ -93,6 +94,10 @@ def get_financial_datas(x, start = '1999-01-01', conversion = True):
     for i in x:
         if conversion :
             stk_data[i] = stk_data[i].apply(lambda x : f(x))
-        stk_data[i][['Open', 'High', 'Low', 'Close', 'Adj Close']] = stk_data[i][['Open', 'High', 'Low', 'Close', 'Adj Close']].pct_change()*100
-
+        stk_data[i][['Open', 'High', 'Low', 
+                     conventions.close_name,
+                     'Adj Close']] = stk_data[i][['Open', 'High', 'Low', 'Close', 'Adj Close']].pct_change()*100
+        if(remove_nan): # after pct_change because pct_change add NaN for first row
+            stk_data[i].dropna(inplace=True, axis=0)
+        stk_data[i][conventions.date_name] = stk_data[i].index
     return stk_data
