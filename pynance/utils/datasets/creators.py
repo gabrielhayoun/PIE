@@ -8,14 +8,10 @@ import numpy as np
 class DatasetCreator(abc.ABC):
     torch_return_type = "torch"
     numpy_return_type = "numpy"
-    def __init__(self, train_path=None, test_path=None) -> None:
-        assert(any([train_path is not None, test_path is not None]))
-        if(train_path is not None):
-            assert(train_path.suffix==".csv")
-        if(test_path is not None):
-            assert(test_path.suffix==".csv")
-        self._train_path = train_path
-        self._test_path = test_path
+    def __init__(self, train_data=None, test_data=None) -> None:
+        assert(any([train_data is not None, test_data is not None]))
+        self._train_data = train_data
+        self._test_data = test_data
     
     @abc.abstractmethod
     def get_train_sets(self, ratio, return_type):
@@ -27,31 +23,15 @@ class DatasetCreator(abc.ABC):
     def get_test_set(self, return_type):
         assert(return_type in [self.torch_return_type, self.numpy_return_type])
 
-    def read_csv(self):
-        if(self._train_path is not None):
-            self.train_df = self._read_csv(self._train_path)
-        if(self._test_path is not None):
-            self.test_df = self._read_csv(self._test_path)
-
-    @abc.abstractmethod
-    def _read_csv(self, path):
-        pass
-
 
 class StockValuePredictionDatasetCreator(DatasetCreator):
-    def __init__(self, train_path=None, test_path=None) -> None:
-        super().__init__(train_path, test_path)
-        self.read_csv()
+    def __init__(self, train_data=None, test_data=None) -> None:
+        super().__init__(train_data, test_data)
+        assert(any([type(train_data) == pd.DataFrame, type(test_data) == pd.DataFrame]))
 
-    def _read_csv(self, path):
-        df = pd.read_csv(path,
-                         parse_dates=[pynance.utils.conventions.date_name]
-                        ).sort_values(by=pynance.utils.conventions.date_name)
-        return df
-        
     def get_train_sets(self, ratio, return_type, window):
         super().get_train_sets(ratio, return_type)
-        data = self.train_df[pynance.utils.conventions.close_name].values
+        data = self._train_data[pynance.utils.conventions.close_name].values
         if(return_type==self.torch_return_type):
             dataset = pynance.utils.datasets.torch.SlidingWindowDataset(torch.Tensor(data), window)  
             train_length = int(len(dataset) * ratio)
@@ -68,7 +48,7 @@ class StockValuePredictionDatasetCreator(DatasetCreator):
 
     def get_test_set(self, return_type, window):
         super().get_test_set(return_type)
-        data = self.test_df[pynance.utils.conventions.close_name].values
+        data = self._test_data[pynance.utils.conventions.close_name].values
         if(return_type==self.torch_return_type):
             dataset = pynance.utils.datasets.torch.SlidingWindowDataset(data, window)            
             return dataset
@@ -76,25 +56,20 @@ class StockValuePredictionDatasetCreator(DatasetCreator):
             print("Numpy return type remains to be done.")
 
 class StockValueRegressionDatasetCreator(DatasetCreator):
-    def __init__(self, train_path=None, test_path=None, market=None) -> None:
+    def __init__(self, train_data=None, test_data=None, market=None) -> None:
         # we suppose that in this dataset, the market is the name of the column with
         # the valuation of the market
         # all other columns (except date) are supposed to be targets 
-        super().__init__(train_path, test_path)
+        super().__init__(train_data, test_data)
         self.market = market
-        self.read_csv()
+        assert(any([type(train_data) == pd.DataFrame, type(test_data) == pd.DataFrame]))
 
-    def _read_csv(self, path):
-        df = pd.read_csv(path,
-                         parse_dates=[pynance.utils.conventions.date_name]
-                        ).sort_values(by=pynance.utils.conventions.date_name)
-        return df
 
     def get_train_sets(self, ratio, return_type):
         super().get_train_sets(ratio, return_type)
-        market = self.train_df[self.market].values
-        targets = self.train_df.loc[:,
-                                    ~self.train_df.columns.isin(
+        market = self._train_data[self.market].values
+        targets = self._train_data.loc[:,
+                                    ~self._train_data.columns.isin(
                                         [self.market,
                                          pynance.utils.conventions.date_name])].values
         if(return_type==self.torch_return_type):
@@ -114,9 +89,9 @@ class StockValueRegressionDatasetCreator(DatasetCreator):
 
     def get_test_set(self, return_type):
         super().get_test_set(return_type)
-        market = self.test_df[self.market].values
-        targets = self.test_df.loc[:,
-                                    ~self.test_df.columns.isin(
+        market = self._test_data[self.market].values
+        targets = self._test_data.loc[:,
+                                    ~self._test_data.columns.isin(
                                         [self.market,
                                          pynance.utils.conventions.date_name])].values
         if(return_type==self.torch_return_type):
