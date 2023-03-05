@@ -1,6 +1,7 @@
 # pytorch
 import torch
 import sklearn
+from sklearn import linear_model
 
 # local
 import pynance
@@ -51,3 +52,18 @@ class StockRegressionPredictionSklearn:
         score = self.gpr.score(X, y)
         return score
     
+class MultipleLinearRegression:
+    def __init__(self, number_of_submodels) -> None:
+        self.number_of_submodels = number_of_submodels
+        self.submodels = [sklearn.linear_model.LinearRegression() for k in range(number_of_submodels)]
+
+    def fit(self, x, y):
+        for i, reg in enumerate(self.submodels):
+            reg.fit(x, y[:, i:i+1])
+
+    def score(self, x, y):
+        scores = []
+        for i, reg in enumerate(self.submodels):
+            score = reg.score(x, y[:, i:i+1])
+            scores.append(score)
+        return scores
