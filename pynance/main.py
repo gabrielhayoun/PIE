@@ -5,6 +5,7 @@ from tqdm import tqdm
 import os
 import pynance
 from datetime import datetime
+import torch
 
 def main(path_to_cfg, save=True):
     parameters = pynance.config.cfg_reader.read(path_to_cfg) # parameters
@@ -53,8 +54,8 @@ def convert_object(o):
 def setup(parameters):
     # objective : converts to write format and do everything required on the set of parameters for later use
     parameters['general'] = general_setup(parameters['general'])
-    parameters['model'] = model_setup(parameters['model'])
     parameters['data'] = data_setup(parameters['data'])
+    parameters['model'] = model_setup(parameters['model'])
     parameters['training'] = training_setup(parameters['training'])
     return parameters
 
@@ -64,12 +65,30 @@ def general_setup(parameters):
     return parameters
 
 def model_setup(parameters):
+    # should know how to load models
+    model_type = parameters['stock_prediction_model_type']
+    if(model_type == 'GRU'):
+        gru_params = parameters['GRU']
+        parameters['active_model'] = pynance.model.forecasting.TFnaive(
+            input_size=gru_params['input_size'],
+            hidden_size=gru_params['hidden_size'],
+            num_layers=gru_params['num_layers']
+        ) # .to(device=device, dtype=dtype)
     return parameters
 
 def data_setup(parameters):
+    parameters['actions'] = pynance.data.readers.read_txt(parameters['actions_file_name'])
+    index = parameters['index']
+    start_date = parameters['start_date']
+    end_date = parameters['end_date']
+    dict_stocks = pynance.data.readers.get_financial_datas(parameters['actions'] + [index], start=start_date, end=end_date, conversion=True, return_type='raw')
+    parameters['df_actions'] = pd.DataFrame({stock: df_[pynance.utils.conventions.close_name] for stock, df_ in dict_stocks.items()}) 
+    parameters['df_index'] = dict_stocks[index]
     return parameters
 
 def training_setup(parameters):
+    parameters['device'] = torch.device(parameters['device'])
+    # parameters['dtype'] = torch.detype(parameters['dtype'])
     return parameters
 
 
