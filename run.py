@@ -26,9 +26,6 @@ def run(argv):
         print('run.py -p <path_to_cfg> -s')   
         sys.exit()
     elif opts[0][0] in ('-p','--path'):
-        # resolve allows to go in absolute path (and note relative anymore)
-        # mod_path = Path(__file__).resolve().parents[1]
-        # cfg_path = (mod_path/Path(opts[0][1])).resolve()
         cfg_path = get_path_to_config_files() / opts[0][1]
         print(cfg_path)
         if(opts[1][0] in ('-s','-save')):
