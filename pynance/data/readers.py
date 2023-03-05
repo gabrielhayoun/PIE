@@ -65,7 +65,9 @@ def write_idx_txt(tag_list, name, verbose = False):
         print('Done')
 
 
-def get_financial_datas(x, start = '1999-01-01', end=None, conversion = True, remove_nan=True):
+def get_financial_datas(x, start = '1999-01-01', end=None,
+                        conversion = True, remove_nan=True,
+                        return_type='returns'):
     """ Usage : get_financial_datas(x, start = '1999-01-01', conversion = True)
 
     Args:
@@ -74,8 +76,10 @@ def get_financial_datas(x, start = '1999-01-01', end=None, conversion = True, re
         conversion (bool, optional): Converts from Dollars or not. Defaults to True.
 
     Returns:
-        _type_: _description_
+        dict: Dictionnary containing for each stock entry a dataframe with 'Open', 'High',
+             'Low', 'Close', 'Adj Close' columns and the dates as index.
     """
+    assert(return_type in ["returns", "raw"])
     stk_data = {}
     for i in x:
         stk_data[i] = yf.download(i, start=start, end=end)
@@ -94,10 +98,13 @@ def get_financial_datas(x, start = '1999-01-01', end=None, conversion = True, re
     for i in x:
         if conversion :
             stk_data[i] = stk_data[i].apply(lambda x : f(x))
-        stk_data[i][['Open', 'High', 'Low', 
-                     conventions.close_name,
-                     'Adj Close']] = stk_data[i][['Open', 'High', 'Low', 'Close', 'Adj Close']].pct_change() #*100
+        if(return_type == 'returns'):
+            stk_data[i][['Open', 'High', 'Low', 
+                        conventions.close_name,
+                        'Adj Close']] = stk_data[i][
+                            ['Open', 'High', 'Low',
+                            'Close', 'Adj Close']].pct_change() #*100
         if(remove_nan): # after pct_change because pct_change add NaN for first row
             stk_data[i].dropna(inplace=True, axis=0)
-        stk_data[i][conventions.date_name] = stk_data[i].index
+        # stk_data[i][conventions.date_name] = stk_data[i].index
     return stk_data
