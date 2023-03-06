@@ -70,6 +70,7 @@ python run.py -n config1
 ```
 
 Un dossier spécifique à la tentative est créé et contiendra les paramètres ainsi que des sauvegardes de modèles et de figures. 
+Des exemple de fichier de configuration sont disponibles [ici](config_files/)
 
 ## Description du package
 Se référer à <TODO>.
