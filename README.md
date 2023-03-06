@@ -1,14 +1,12 @@
 # Projet en IA et trading
 Dans le cadre du *Projet Ingénierie et Entreprise* à l'ISAE SUPAERO en dernière année.
 
-
-
 ## Installation
 
 ### Environnement conda
 Modules nécessaires et installation dans un conda env :
 ```shell
-conda create -n pienv python==3.9 pandas matplotlib yfinance pandas-datareader seaborn scikit-learn ipykernel ipympl -c conda-forge -c anaconda -y
+conda create -n pienv python==3.9 pandas matplotlib yfinance pandas-datareader seaborn scikit-learn ipykernel ipympl configobj tqdm -c conda-forge -c anaconda -y
 ```
 Puis activer le :
 ```shell
@@ -56,6 +54,25 @@ Note : ctrl + h permet d'afficher les fichiers cachés (sur linux du moins). Sin
 
 #### Procédure Windows 10
 Voir par exemple ce [lien](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/). Attention a bien ajouter pour nom de variable `USERCFG`.
+
+## Utilisation
+Le package s'utilise en ligne de commande, à partir de fichiers de configuraton que l'utilisateur modifie.
+
+Une fois l'installation effectuée, depuis le scipt `run.py` qui utilise le package pynance:
+```shell
+python run.py -n <nom_fichier_cfg>
+```
+Où le fichier de configuration doit être dans le dossier précisé dans le `user.cfg` sous le format `<nom>.cfg`. Le `.cfg` n'est pas à précisé, il est automatiquement ajouté par l'algorithme.
+
+Exemple:
+```shell
+python run.py -n config1
+```
+
+Un dossier spécifique à la tentative est créé et contiendra les paramètres ainsi que des sauvegardes de modèles et de figures. 
+
+## Description du package
+Se référer à <TODO>.
 
 ## Auteurs
 - [CALOT Paul](https://www.linkedin.com/in/paul-calot-43549814b/)
