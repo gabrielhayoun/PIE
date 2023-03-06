@@ -5,6 +5,7 @@ from datetime import datetime
 import abc
 from tqdm import tqdm
 import logging
+import pynance
 
 class Trainer(abc.ABC):
     def __init__(self) -> None:
@@ -57,6 +58,8 @@ class TorchTrainer(Trainer):
                                     collate_fn=self.collater_fn)
 
         best_vloss = 1_000_000.
+        loss_list = []
+        vloss_list = []
         best_model_state = None 
         model_path = self.saving_dir / 'model_state_dict_epoch:None.pt'
         pbar = tqdm(range(1, self.epochs + 1))
@@ -68,7 +71,6 @@ class TorchTrainer(Trainer):
                                     train_loader,
                                     optimizer,
                                     tb_writer)
-
             model.train(False)
 
             avg_vloss = self._evaluate(model, valid_loader)
@@ -89,9 +91,11 @@ class TorchTrainer(Trainer):
                 model_path = self.saving_dir / 'model_state_dict_epoch:{}.pt'.format(epoch)
                 best_model_state = model.state_dict()
 
+            loss_list.append(avg_loss)
+            vloss_list.append(avg_vloss)
         if(best_model_state is not None):
             torch.save(best_model_state, model_path)
-
+        self._plot_losses(loss_list, vloss_list)
         # logging.log(f'Training finished. Best model state dict saved at {model_path}.')
         return tb_writer
 
@@ -110,9 +114,8 @@ class TorchTrainer(Trainer):
             loss = self.loss_function(outputs, labels)
             loss.backward()
             optimizer.step()
-
             running_loss += loss.item()
-            
+
         last_loss = running_loss / len(train_loader)
         tb_x = epoch * len(train_loader) + i + 1
         tb_writer.add_scalar('Loss/train', last_loss, tb_x)
@@ -125,8 +128,8 @@ class TorchTrainer(Trainer):
             inputs, labels = data
             outputs = model(inputs)
             loss = self.loss_function(outputs, labels)
-            running_loss += loss
-        avg_vloss = loss / (i + 1)
+            running_loss += loss.item()
+        avg_vloss = running_loss / (i + 1)
         model.train(True)
         return avg_vloss
     
@@ -137,6 +140,10 @@ class TorchTrainer(Trainer):
                                     shuffle=False,
                                     collate_fn=self.collater_fn)
         return self._evaluate(model, valid_loader)
+
+    def _plot_losses(self, train_loss, valid_loss):
+        fig, ax = pynance.utils.plot.plot_losses(train_loss, valid_loss)
+        fig.savefig(self.saving_dir / 'losses.png', dpi=300)
 
 class SklearnTrainer(Trainer):
     def __init__(self, saving_dir) -> None:
