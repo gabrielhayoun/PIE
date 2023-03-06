@@ -156,14 +156,23 @@ class SklearnTrainer(Trainer):
               valid_set):
         x_train, y_train = train_set
         model.fit(x_train, y_train)
-        self.save(model)
+        self._save(model)
+
+        train_score = self.evaluate(model, train_set)
+        valid_score = self.evaluate(model, valid_set)
+        self._save_score('train', train_score)
+        self._save_score('valid', valid_score)
     
     def evaluate(self, model, valid_set):
         x_valid, y_valid = valid_set
         return model.score(x_valid, y_valid)
 
-    def save(self, model):
+    def _save(self, model):
         # TODO: may be add an asserttion to make sure the right function is there
         saving_path = self.saving_dir / 'model'
-        saving_path.mkdir(parents=True)
+        saving_path.mkdir(parents=True, exist_ok=True)
         model.save(saving_path)
+
+    def _save_score(self, name, score):
+        with open(self.saving_dir / f'{name}_score.txt', 'w') as f:
+            f.writelines(str(score))
