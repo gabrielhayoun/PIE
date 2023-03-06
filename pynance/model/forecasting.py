@@ -32,7 +32,9 @@ class TFnaive(torch.nn.Module):
                                              bias=True)                        
 
     def forward(self, X, return_intermediary=False):
-        assert(len(X.shape)==3)
+        assert(len(X.shape)==3) # batch size x number of features x length - as returned by the collater
+        # we want : batch size x sequence length x number of features (or channel size)
+        X = torch.transpose(X, 1, 2) 
         X, h = self.rnn(X) # size is batch size x sequence length x output_size = input_size
         X = self.output_layer(X)
         if(return_intermediary):

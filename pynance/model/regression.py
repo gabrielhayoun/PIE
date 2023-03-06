@@ -2,6 +2,7 @@
 import torch
 import sklearn
 from sklearn import linear_model
+import numpy as np
 
 # local
 import pynance
@@ -51,19 +52,28 @@ class StockRegressionPredictionSklearn:
     def score(self, X, y):
         score = self.gpr.score(X, y)
         return score
-    
+
 class MultipleLinearRegression:
     def __init__(self, number_of_submodels) -> None:
         self.number_of_submodels = number_of_submodels
         self.submodels = [sklearn.linear_model.LinearRegression() for k in range(number_of_submodels)]
 
     def fit(self, x, y):
+        # x : 1 x nb features x length
+        # y : nb stocks x nb targets (Open / Close etc.) x nb samples (=length of time series)
+        # here : features = targets ! (in general)
+        x_transpose = np.transpose(x[0]) # nb samples x nb features
+        y_transpose = np.transpose(y, (2, 0, 1)) # nb samples x nb stocks x nb 
         for i, reg in enumerate(self.submodels):
-            reg.fit(x, y[:, i:i+1])
+            # for regression we should have : X = n_samples, n_features
+            # Y = n_samples, n_targets
+            reg.fit(x_transpose, y_transpose[:, i, :])
 
     def score(self, x, y):
         scores = []
+        x_transpose = np.transpose(x[0])
+        y_transpose = np.transpose(y, (2, 0, 1))
         for i, reg in enumerate(self.submodels):
-            score = reg.score(x, y[:, i:i+1])
+            score = reg.score(x_transpose, y_transpose[:, i, :])
             scores.append(score)
         return scores
