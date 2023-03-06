@@ -156,7 +156,14 @@ class SklearnTrainer(Trainer):
               valid_set):
         x_train, y_train = train_set
         model.fit(x_train, y_train)
-
+        self.save(model)
+    
     def evaluate(self, model, valid_set):
         x_valid, y_valid = valid_set
         return model.score(x_valid, y_valid)
+
+    def save(self, model):
+        # TODO: may be add an asserttion to make sure the right function is there
+        saving_path = self.saving_dir / 'model'
+        saving_path.mkdir(parents=True)
+        model.save(saving_path)
