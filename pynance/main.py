@@ -37,7 +37,6 @@ def main(path_to_cfg, save=True):
         trainer_class=trainer_class,
         analyser_class=None
     )
-
     pipeliner.init_model(parameters['model']['parameters'])
     pipeliner.init_dataloader(parameters['data']['parameters'])
     trainer_params = parameters['training']['parameters']
@@ -83,27 +82,32 @@ def data_setup(parameters, task, framework):
     start_date = parameters['start_date']
     end_date = parameters['end_date']
     index_ticker = parameters['index_ticker']
+    return_type = parameters['return_type']
+    preprocesser = pynance.utils.preprocessing.Preprocesser(**parameters['preprocessing'])
+
     if(task == 'regression'):
         tickers = pynance.data.readers.read_txt(parameters['regression']['tickers_file_name'])
-        parameters['tickers'] = tickers 
-        dict_stocks = pynance.data.readers.get_financial_datas(tickers + [index_ticker], start=start_date, end=end_date, conversion=True, return_type='raw')
-        train_data = pd.DataFrame({stock: df_[pynance.utils.conventions.close_name] for stock, df_ in dict_stocks.items()}) 
-
+        parameters['tickers'] = tickers
+        dict_stocks = pynance.data.readers.get_financial_datas(tickers + [index_ticker], start=start_date, end=end_date, conversion=True, return_type=return_type)
+        preprocesser.init_preprocessor(dict_stocks)
         parameters['parameters'] = {
-            'train_data': train_data,
+            'train_data': dict_stocks,
             'test_data': None,
             'framework': framework,
             'ratio': parameters['ratio'],
-            'index': index_ticker
+            'index': len(tickers), # index of index_ticker in the list of data
+            'preprocesser': preprocesser
         }
     elif(task == 'prediction'):
-        dict_stocks = pynance.data.readers.get_financial_datas([index_ticker], start=start_date, end=end_date, conversion=True, return_type='raw')
+        dict_stocks = pynance.data.readers.get_financial_datas([index_ticker], start=start_date, end=end_date, conversion=True, return_type=return_type)
+        preprocesser.init_preprocessor(dict_stocks)
         parameters['parameters'] = {
-            'train_data': dict_stocks[index_ticker],
+            'train_data': dict_stocks,
             'test_data': None,
             'framework': framework,
             'ratio': parameters['ratio'],
-            'window': parameters['prediction']['window']
+            'window': parameters['prediction']['window'],
+            'preprocesser': preprocesser
         }
     return parameters
 
@@ -113,6 +117,8 @@ def training_setup(parameters, framework):
     elif(framework == 'sklearn'):
         parameters['parameters'] = parameters['sklearn']
     return parameters
+
+
 # ----------------- convert ------------------- #
 def convert_objects(p):
     pp = {}
