@@ -104,6 +104,12 @@ def get_financial_datas(x, start = '1999-01-01', end=None,
                         'Adj Close']] = stk_data[i][
                             ['Open', 'High', 'Low',
                             'Close', 'Adj Close']].pct_change() #*100
+        elif(return_type == 'raw'):
+           stk_data[i][['Open', 'High', 'Low', 
+                        conventions.close_name,
+                        'Adj Close']] = stk_data[i][
+                            ['Open', 'High', 'Low',
+                            'Close', 'Adj Close']] 
         if(remove_nan): # after pct_change because pct_change add NaN for first row
             stk_data[i].dropna(inplace=True, axis=0)
         # stk_data[i][conventions.date_name] = stk_data[i].index
