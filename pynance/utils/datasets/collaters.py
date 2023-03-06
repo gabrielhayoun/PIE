@@ -16,7 +16,11 @@ class TimeSeriesCollater:
         x_tensor = torch.stack(x_list, dim=0).to(device=self.device, dtype=self.dtype)
         y_tensor = torch.stack(y_list, dim=0).to(device=self.device, dtype=self.dtype)
 
-        if(len(x_tensor.shape)==2):
-            x_tensor = torch.unsqueeze(x_tensor, dim=2)
-            y_tensor = torch.unsqueeze(y_tensor, dim=1)
+        assert(len(x_tensor.shape)==3)
+        assert(len(y_tensor.shape)==2)
+        # x shape : batch size x number of features x length
+        # y shape : batch size x number of features
+        # if(len(x_tensor.shape)==2):
+        #     x_tensor = torch.unsqueeze(x_tensor, dim=2)
+        #     y_tensor = torch.unsqueeze(y_tensor, dim=1)
         return x_tensor, y_tensor
