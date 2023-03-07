@@ -5,7 +5,7 @@ import sys, getopt
 from pathlib import Path
 
 # https://www.tutorialspoint.com/python/python_command_line_arguments.htm
-from pynance import main
+from pynance import train
 from pynance.utils.user import get_path_to_config_files
 
 def print_usage():
@@ -33,7 +33,7 @@ def run(argv):
         cfg_name = opts[0][1]
         cfg_path = get_path_to_config_files() / f'{cfg_name}.cfg'
         print(f'Config file used: {cfg_path}')
-        main(cfg_path, save=True)
+        train.main(cfg_path)
     else :
         print('Please precise path to cfg.')
         print_usage()
