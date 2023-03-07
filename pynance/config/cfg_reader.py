@@ -12,16 +12,39 @@ from pynance.utils.user import get_path_to_data
     for a detailed explanation of ConfigObj.
 """
 
-spec_filename = str((Path(__file__).resolve().parents[0]/'spec.cfg').resolve())  
+# TODO: can we give spec file name in param instead ??
+# good idea only for "Never" changing again the cfg_read.py function
+# however it is very necessary to adapt the code that uses the parameters
+# as returns by _read function
 
-def read(filename):
+train_spec_filename = str((Path(__file__).resolve().parents[0]/'spec_train.cfg').resolve())  
+infer_spec_filename = str((Path(__file__).resolve().parents[0]/'spec_infer.cfg').resolve())  
+crypto_spec_filename = str((Path(__file__).resolve().parents[0]/'spec_crypto.cfg').resolve())  
+
+def read(file_name, kind):
+    if(kind == 'train'):
+        spec_file = train_spec_filename
+    elif(kind == 'infer'):
+        spec_file = infer_spec_filename
+    elif(kind == 'crypto'):
+        spec_file = crypto_spec_filename
+    else:
+        raise ValueError(f'Not recognized kind {kind}. Available: train, infer, crypto.')
+
+    return _read(file_name, spec_file)
+
+def _read(filename, spec_file):
     # loading the config spec
-    configspec = ConfigObj(spec_filename, interpolation=False, list_values=False,
+    configspec = ConfigObj(spec_file, interpolation=False, list_values=False,
                            _inspec=True)
     # loading the current filename
     config = ConfigObj(str(filename), configspec=configspec)
     # validating it
-    validator = Validator({'actions_file_name': check_actions_file_name, 'date': check_date}) # give the custom checks in the dictionnary here {'my_type': my_type_fn}
+    validator = Validator({
+        'actions_file_name': check_actions_file_name,
+        'date': check_date
+        })
+
     results = config.validate(validator)
     if results != True:
         for (section_list, key, _) in flatten_errors(config, results):
