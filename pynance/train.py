@@ -7,10 +7,14 @@ import pynance
 #TODO: make it better. For now it's stupid because values are hardcoded.
 
 def main(path_to_cfg):
-    parameters = pynance.config.cfg_reader.read(path_to_cfg) # parameters
+    parameters = pynance.config.cfg_reader.read(path_to_cfg, kind='infer') # 'raw' parameters
+    results_dir = pynance.utils.setup.get_results_dir(parameters['general']['name'])
+
+    pynance.utils.saving.save_configobj(parameters, results_dir, 'parameters') # for later use
+
+    # Modify params in place
     setup(parameters)
-    parameters['general']['results_dir'].mkdir(parents=True, exist_ok=True)
-    pynance.utils.saving.save_configobj(parameters)
+    pynance.utils.saving.save_configobj(parameters, results_dir, 'processed_parameters')
 
     framework = parameters['general']['framework']
     task = parameters['general']['task']
@@ -42,6 +46,8 @@ def main(path_to_cfg):
     return True
 
 # --------------- setup ------------------- #
+
+
 def setup(parameters):
     framework = parameters['general']['framework']
     task = parameters['general']['task']
@@ -53,8 +59,7 @@ def setup(parameters):
     return parameters
 
 def general_setup(parameters):
-    now = datetime.now().strftime(format='%Y%m%d%H%M')
-    parameters['results_dir'] = pynance.utils.user.get_path_to_results() / '{}_{}'.format(now, parameters['name'])
+    parameters['results_dir'] = get_results_dir(parameters['name'])
     return parameters
 
 def model_setup(parameters):

@@ -1,10 +1,10 @@
 from configobj import ConfigObj
 
 # saving the new params to a file so the user can go and debug it or refer to all the simulations params when needed.
-def save_configobj(parameters):
+def save_configobj(parameters, saving_dir, name='parameters'):
     pp_dict = convert_objects(parameters.dict())
     pp = ConfigObj(pp_dict)
-    pp.filename = '{}/{}.ini'.format(parameters['general']['results_dir'], 'parameters')
+    pp.filename = '{}/{}.ini'.format(saving_dir, name)
     pp.write()
 
 # ----------------- convert ------------------- #
