@@ -1,1 +1,2 @@
-from pynance.strategy import strategies
+from pynance.strategy import live
+from pynance.strategy import basic
