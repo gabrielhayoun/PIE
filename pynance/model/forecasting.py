@@ -55,3 +55,9 @@ class TFnaive(torch.nn.Module):
     def init_weights(self):
         pass
 
+    def load(self, path_dir):
+        state_dict = torch.load(path_dir / 'state_dict.pt')
+        self.load_state_dict(state_dict)
+
+    def save(self, saving_dir):
+        torch.save(self.state_dict(), saving_dir / 'state_dict.pt')

@@ -38,6 +38,13 @@ class TorchTrainer(Trainer):
         self.collater_fn = collater_fn
         self.loss_function = torch.nn.MSELoss() # TODO: modify that
 
+    def _save(self, model):
+        # TODO: may be add an asserttion to make sure the right function is there
+        saving_path = self.saving_dir / 'model'
+        saving_path.mkdir(parents=True, exist_ok=True)
+        model.save(saving_path)
+
+
     def train(self,
             model,
             train_set,
@@ -88,13 +95,16 @@ class TorchTrainer(Trainer):
 
             if avg_vloss < best_vloss:
                 best_vloss = avg_vloss
-                model_path = self.saving_dir / 'model_state_dict_epoch:{}.pt'.format(epoch)
+                # TODO: log the information
+                # model_path = self.saving_dir / 'model_state_dict_epoch:{}.pt'.format(epoch)
                 best_model_state = model.state_dict()
 
             loss_list.append(avg_loss)
             vloss_list.append(avg_vloss)
         if(best_model_state is not None):
-            torch.save(best_model_state, model_path)
+            model.load_state_dict(best_model_state)
+            self._save(model)
+
         self._plot_losses(loss_list, vloss_list)
         # logging.log(f'Training finished. Best model state dict saved at {model_path}.')
         return tb_writer
