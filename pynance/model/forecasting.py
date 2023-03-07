@@ -41,7 +41,7 @@ class TFnaive(torch.nn.Module):
             return X
         return X[:, -1, :]
 
-    def predict(self, X, window=10):
+    def predict(self, X, window):
         X_base = X
         with torch.no_grad():
             X_pred_on_base = self.forward(X, return_intermediary=True)
@@ -50,7 +50,7 @@ class TFnaive(torch.nn.Module):
             for k in range(window):
                 X_ = self.forward(X)
                 X = torch.cat([X, torch.unsqueeze(X_, dim=1)], dim=1)
-        return X, X_pred_on_base[:, :-1, :]
+        return X, X_pred_on_base[:, :-1, :] # TODO: know what we are really supposed to return here ???
 
     def init_weights(self):
         pass

@@ -100,3 +100,11 @@ class MultipleLinearRegression:
             return True
         else:
             return False
+        
+    def predict(self, x):
+        x_transpose = np.transpose(x[0]) # nb samples x nb features
+        predictions = []
+        for i, reg in enumerate(self.submodels):
+            preds = reg.predict(x_transpose).transpose() # to get nb features x nb samples
+            predictions.append(preds)
+        return np.stack(predictions, axis=0) # nb stocks x nb features x nb samples

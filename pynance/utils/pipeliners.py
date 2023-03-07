@@ -12,6 +12,11 @@ class Pipeliner:
         self.trainer_class = trainer_class
         self.analyser_class = analyser_class
     
+        self.model = None
+        self.dataloader = None
+        self.trainer = None
+        self.analyser = None
+    
     def init_model(self, parameters):
         self.model = self.model_class(**parameters)
     
@@ -39,3 +44,12 @@ class Pipeliner:
             self.analyser.make_analysis(self.model, self.dataloader)
         else:
             logging.warning('Analyser is None, analysis not performed.')
+
+    # ------------- Inference functions ----------------- #
+    def load_model_state(self, path):
+        self.model.load(path)
+
+    def get_predictions(self, prediction_params):
+        test_data = self.dataloader.get_test_data()
+        assert(test_data is not None)
+        return self.model.predict(test_data, **prediction_params)
