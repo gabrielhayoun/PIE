@@ -106,6 +106,7 @@ class RegressionDataLoader(DataLoader):
         self._test_set = self.prepare_test_data()
     
     def prepare_train_data(self):
+        print(self._train_data.keys())
         if(self._train_data is None):
             return None, None
         super().prepare_train_data()

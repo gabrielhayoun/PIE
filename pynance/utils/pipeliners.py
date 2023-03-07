@@ -20,8 +20,12 @@ class Pipeliner:
     def init_model(self, parameters):
         self.model = self.model_class(**parameters)
     
-    def init_dataloader(self, parameters):
-        self.dataloader = self.dataloader_class(**parameters)
+    def init_dataloader(self, train_data, test_data, preprocesser, framework, parameters):
+        self.dataloader = self.dataloader_class(train_data=train_data,
+                                                test_data=test_data,
+                                                preprocesser=preprocesser,
+                                                framework=framework,
+                                                **parameters)
 
     def init_trainer(self, parameters):
         self.trainer = self.trainer_class(**parameters)

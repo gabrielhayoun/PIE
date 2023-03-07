@@ -43,7 +43,7 @@ class Preprocesser:
             self.key_to_scaler = None
         else:
             key_to_scaler = {}
-            for key, df_ in data.items():
+            for key, df_ in data.items():                                                                                                                                                                                                           
                 key_to_scaler[key] = scaling_class()
                 array_to_scale = df_[self.features_info[1]].values
                 key_to_scaler[key].fit(array_to_scale)

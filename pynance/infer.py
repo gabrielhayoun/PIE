@@ -22,6 +22,12 @@ def main(path_to_cfg):
     setup(parameters)
     pynance.utils.saving.save_configobj(parameters, results_dir, 'processed_parameters')
 
+    # Handling inference now
+
+
 
 def setup(parameters):
-    pass
+    # objective : converts to right format and do everything required on the set of parameters for later use
+    parameters['general'] = pynance.utils.setup.setup_general_section(parameters['general'])
+    parameters['inference'] = pynance.utils.setup.setup_general_section(parameters['inference'])
+    return parameters

@@ -62,8 +62,7 @@ def _read(filename, spec_file):
 def check_actions_file_name(value):
     return get_path_to_data() / value
 
-def check_date_format(value):
-    format = "%Y-%m-%d"
+def check_date_format(value, format):
     try:
         res = bool(datetime.strptime(value, format))
     except ValueError:
@@ -72,8 +71,10 @@ def check_date_format(value):
     return res
 
 def check_date(value):
-    if(value == 'None'):
-        return None
+    format = '%Y-%m-%d'
+    if(value == 'now'):
+        now = datetime.now().strftime(format=format)
+        return now
     else: # '1999-01-01'
-        check_date_format(value)
+        check_date_format(value, format)
     return value
