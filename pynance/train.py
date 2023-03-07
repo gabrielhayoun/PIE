@@ -1,10 +1,11 @@
 import numpy as np
-from datetime import datetime
 
 # local
 import pynance
 
 #TODO: make it better. For now it's stupid because values are hardcoded.
+# Idea: I should be able to call methods here to returned everything that is necessary for inference (amongst other)
+# with models with trained params
 
 def main(path_to_cfg):
     parameters = pynance.config.cfg_reader.read(path_to_cfg, kind='infer') # 'raw' parameters
@@ -59,7 +60,7 @@ def setup(parameters):
     return parameters
 
 def general_setup(parameters):
-    parameters['results_dir'] = get_results_dir(parameters['name'])
+    parameters['results_dir'] = pynance.utils.setup.get_results_dir(parameters['name'])
     return parameters
 
 def model_setup(parameters):
