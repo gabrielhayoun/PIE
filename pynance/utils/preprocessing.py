@@ -45,7 +45,7 @@ class Preprocesser:
             key_to_scaler = {}
             for key, df_ in data.items():
                 key_to_scaler[key] = scaling_class()
-                array_to_scale = np.transpose(df_[self.features_info[1]].values)
+                array_to_scale = df_[self.features_info[1]].values
                 key_to_scaler[key].fit(array_to_scale)
         self.key_to_scaler = key_to_scaler
     
@@ -83,7 +83,7 @@ class Preprocesser:
             assert(self.key_to_scaler is not None)
             for i in range(data.shape[0]):
                 key = self.features_info[0][i]
-                data[i] = self.key_to_scaler[key].transform(data[i])
+                data[i] = np.transpose(self.key_to_scaler[key].transform(np.transpose(data[i])))
         return data
 
     # ------------ inverse transform --------------- #

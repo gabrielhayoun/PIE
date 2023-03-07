@@ -68,7 +68,7 @@ class TorchTrainer(Trainer):
         loss_list = []
         vloss_list = []
         best_model_state = None 
-        model_path = self.saving_dir / 'model_state_dict_epoch:None.pt'
+        # model_path = self.saving_dir / 'model_state_dict_epoch:None.pt'
         pbar = tqdm(range(1, self.epochs + 1))
         for epoch in pbar:
             model.train(True)
