@@ -52,17 +52,17 @@ import re
 #         return score
 
 class MultipleLinearRegression:
-    pattern = 'mlr_reg:[0-9]+.bin'
+    pattern = re.compile(r'mlr_reg\:[0-9+]+')
     def __init__(self, number_of_submodels) -> None:
         self.number_of_submodels = number_of_submodels
         self.submodels = [sklearn.linear_model.LinearRegression() for k in range(number_of_submodels)]
 
     def fit(self, x, y):
-        # x : 1 x nb features x length
+        # x : nb features x length
         # y : nb stocks x nb targets (Open / Close etc.) x nb samples (=length of time series)
         # here : features = targets ! (in general)
-        x_transpose = np.transpose(x[0]) # nb samples x nb features
-        y_transpose = np.transpose(y, (2, 0, 1)) # nb samples x nb stocks x nb 
+        x_transpose = np.transpose(x) # to get nb samples x nb features
+        y_transpose = np.transpose(y, (2, 0, 1)) # to get nb samples x nb stocks x nb 
         for i, reg in enumerate(self.submodels):
             # for regression we should have : X = n_samples, n_features
             # Y = n_samples, n_targets
@@ -70,12 +70,20 @@ class MultipleLinearRegression:
 
     def score(self, x, y):
         scores = []
-        x_transpose = np.transpose(x[0])
+        x_transpose = np.transpose(x)
         y_transpose = np.transpose(y, (2, 0, 1))
         for i, reg in enumerate(self.submodels):
             score = reg.score(x_transpose, y_transpose[:, i, :])
             scores.append(score)
         return scores
+    
+    def predict(self, X):
+        # X : nb samples x nb features
+        predictions = []
+        for i, reg in enumerate(self.submodels):
+            preds = reg.predict(np.transpose(X)).transpose() # to get nb features x nb samples
+            predictions.append(preds)
+        return np.stack(predictions, axis=0) # number of models x nb features x nb samples
     
     def save(self, saving_dir):
         for i, reg in enumerate(self.submodels):
@@ -86,7 +94,7 @@ class MultipleLinearRegression:
         submodels = {}
         for p in paths:
             stem = p.stem
-            if(re.match(stem, self.pattern)):
+            if(self.pattern.match(stem)):
                 index = int(stem.split(':')[1]) # get number
                 submodels[index] = joblib.load(p)
         list_of_submodels = [None] * len(submodels)
@@ -100,11 +108,4 @@ class MultipleLinearRegression:
             return True
         else:
             return False
-        
-    def predict(self, x):
-        x_transpose = np.transpose(x[0]) # nb samples x nb features
-        predictions = []
-        for i, reg in enumerate(self.submodels):
-            preds = reg.predict(x_transpose).transpose() # to get nb features x nb samples
-            predictions.append(preds)
-        return np.stack(predictions, axis=0) # nb stocks x nb features x nb samples
+

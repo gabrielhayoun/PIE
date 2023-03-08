@@ -1,5 +1,4 @@
 import torch
-
 # https://pytorch.org/docs/stable/generated/torch.nn.RNN.html?highlight=rnn#torch.nn.RNN
 # https://pytorch.org/docs/stable/generated/torch.nn.GRU.html?highlight=gru#torch.nn.GRU
 # https://pytorch.org/docs/stable/generated/torch.nn.LSTM.html?highlight=lstm#torch.nn.LSTM
@@ -41,17 +40,22 @@ class TFnaive(torch.nn.Module):
             return X
         return X[:, -1, :]
 
-    def predict(self, X, window):
-        X_base = X
+    def predict(self, dataset, window):
         with torch.no_grad():
-            X_pred_on_base = self.forward(X, return_intermediary=True)
-            X_ = torch.unsqueeze(X_pred_on_base[:, -1, :], dim=1)
-            X = torch.cat([X_base, X_], dim=1)
-            for k in range(window):
-                X_ = self.forward(X)
-                X = torch.cat([X, torch.unsqueeze(X_, dim=1)], dim=1)
-        return X, X_pred_on_base[:, :-1, :] # TODO: know what we are really supposed to return here ???
-
+            list_preds = []
+            for X in dataset:
+                assert(len(X.shape) == 2) # nb feature x length
+                X = torch.unsqueeze(X, dim=0)
+                list_pred = []
+                for k in range(window):
+                    X_ = self.forward(X) # size is batch_size x number of features - batch size is 1
+                    X_tmp = torch.cat([X, torch.unsqueeze(X_, dim=2)], dim=2)
+                    X = X_tmp[:, :, 1:] # take last one and go again
+                    list_pred.append(X_[0])
+                list_preds.append(torch.stack(list_pred, axis=0))  # TODO: know what we are really supposed to return here ???
+        return torch.transpose(torch.stack(list_preds, dim=0), 1, 2).cpu().numpy() # always return numpy
+        # shape: number in dataset x nb features x nb samples
+    
     def init_weights(self):
         pass
 
