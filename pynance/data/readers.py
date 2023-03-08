@@ -83,7 +83,7 @@ def get_financial_datas(x, start = '1999-01-01', end=None,
     stk_data = {}
     for i in x:
         stk_data[i] = yf.download(i, start=start, end=end)
-
+        print(f'Download {len(stk_data[i])} data for {i} from {start} to {end}.')
     if conversion:
         conversion_us = 'DEXUSEU'
         ccy_data = web.DataReader(conversion_us, 'fred', start=start, end=end)
@@ -104,13 +104,16 @@ def get_financial_datas(x, start = '1999-01-01', end=None,
                         'Adj Close']] = stk_data[i][
                             ['Open', 'High', 'Low',
                             'Close', 'Adj Close']].pct_change() #*100
+            if(remove_nan): # after pct_change because pct_change add NaN for first row
+                stk_data[i].dropna(inplace=True, axis=0)
         elif(return_type == 'raw'):
-           stk_data[i][['Open', 'High', 'Low', 
+            stk_data[i][['Open', 'High', 'Low', 
                         conventions.close_name,
                         'Adj Close']] = stk_data[i][
                             ['Open', 'High', 'Low',
                             'Close', 'Adj Close']] 
+            stk_data[i].interpolate(method='linear', inplace=True, axis=0)
+        # stk_data[i][conventions.date_name] = stk_data[i].index
         if(remove_nan): # after pct_change because pct_change add NaN for first row
             stk_data[i].dropna(inplace=True, axis=0)
-        # stk_data[i][conventions.date_name] = stk_data[i].index
     return stk_data
