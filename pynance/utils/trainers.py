@@ -6,6 +6,7 @@ import abc
 from tqdm import tqdm
 import logging
 import pynance
+import numpy as np
 
 class Trainer(abc.ABC):
     def __init__(self) -> None:

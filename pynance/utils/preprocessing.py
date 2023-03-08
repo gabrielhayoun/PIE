@@ -58,58 +58,95 @@ class Preprocesser:
             data = dict(data)
         except Exception as e:
             raise Exception(f'Wrong type: {type(data)} - Error: {e}')
-        data = self._transform_features(data)
-        data = self._transform_filter(data)
-        data = self._transform_scale(data)
+        data, keys = self._transform_features(data)
+        data = self._transform_filter(data, keys)
+        data = self._transform_scale(data, keys)
         return data
-
+    
     def _transform_features(self, data):
-        assert(list(data.keys()) == list(self.features_info[0]))
+        # assert(list(data.keys()) == list(self.features_info[0]))
         try:
             data_as_array = np.stack([np.transpose(df_[self.features].values) for df_ in data.values()], axis=0)
             assert(len(data_as_array.shape) == 3)
         except KeyError as e:
             raise KeyError(e)
-        return data_as_array
+        return data_as_array, list(data.keys())
     
-    def _transform_filter(self, data):
+    def _transform_filter(self, data, keys):
         return data
 
-    def _transform_scale(self, data):
+    def _transform_scale(self, data, keys):
         assert(type(data) == np.ndarray)
         if(self.scale == 'None'):
             return data
         else:
             assert(self.key_to_scaler is not None)
             for i in range(data.shape[0]):
-                key = self.features_info[0][i]
+                key = keys[i] # self.features_info[0][i]
+                # data in the current hypothesis is n features n samples
                 data[i] = np.transpose(self.key_to_scaler[key].transform(np.transpose(data[i])))
         return data
-
-    # ------------ inverse transform --------------- #
-    def inverse_transform(self, data, index=None):
-        data = self._inverse_transform_scale(data)
-        data =self._inverse_transform_features(data, index)
+    
+    def transform_df(self, df, key): # only one in this case
+        data = self._transform_features_key(df, key)
+        data = self._transform_filter(data, key)
+        data = self._transform_scale_key(data, key)
         return data
 
-    def _inverse_transform_scale(self, data):
+    def _transform_features_key(self, df, key):
+        assert(type(df) == pd.DataFrame)
+        return np.transpose(df[self.features].values)
+
+    def _transform_filter_key(self, data, key):
+        return data
+
+    def _transform_scale_key(self, data, key): # data: nb features x nb samples
+        assert(type(data) == np.array)
+        data = np.transpose(self.key_to_scaler[key].transform(np.transpose(data)))
+        return data
+
+
+    # ------------ inverse transform --------------- #
+    def inverse_transform(self, data, keys=None, index=None):
+        assert(all([key in self.features_info[0] for key in keys]))
+        assert(len(keys) == data.shape[0]) # data shape should be: #stocks x #features x #length
+        data = self._inverse_transform_scale(data, keys)
+        data = self._inverse_transform_features(data, keys, index)
+        return data
+
+    def _inverse_transform_scale(self, data, keys):
         assert(type(data) == np.ndarray)
         if(self.scale == 'None'):
             return data
         else:
             assert(self.key_to_scaler is not None)
             for i in range(data.shape[0]):
-                key = self.features_info[0][i]
-                data[i] = self.key_to_scaler[key].inverse_transform(data[i])
+                key = keys[i] # self.features_info[0][i]
+                # size should be: nb samples x nb features
+                data[i] = np.transpose(self.key_to_scaler[key].inverse_transform(np.transpose(data[i]))) # why no transpose ?
         return data
 
-    def _inverse_transform_features(self, data, index=None):
-        features = self.features_info[1]
+    def _inverse_transform_features(self, data, keys, index=None):
         data_dict = {}
-        for i, key in enumerate(self.features_info[0]):
-            data_dict[key] = pd.DataFrame(np.transform(data[i]), columns=features, index=index)
+        for i, key in enumerate(keys):
+            data_dict[key] = pd.DataFrame(np.transpose(data[i]), columns=self.features, index=index)
         return data_dict
+    
+    def inverse_transform_df(self, df, key):
+        data = self._inverse_transform_scale_key(data, key)
+        df = self._inverse_transform_features_key(df, key)
+        return data
 
+    def _inverse_transform_scale_key(self, data, key): # data: nb features x nb samples
+        assert(type(data) == np.array)
+        data = np.transpose(self.key_to_scaler[key].transform(np.transpose(data)))
+        return data
+
+    def _inverse_transform_features_key(self, data, key, index=None):
+        features = self.features_info[1]
+        return pd.DataFrame(np.transpose(data), columns=features, index=index)
+
+    
     # ---------- save and load info -------------- #
     def save(self, path):
         for key, scaler in self.key_to_scaler.items():            

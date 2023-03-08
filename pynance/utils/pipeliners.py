@@ -20,12 +20,8 @@ class Pipeliner:
     def init_model(self, parameters):
         self.model = self.model_class(**parameters)
     
-    def init_dataloader(self, train_data, test_data, preprocesser, framework, parameters):
-        self.dataloader = self.dataloader_class(train_data=train_data,
-                                                test_data=test_data,
-                                                preprocesser=preprocesser,
-                                                framework=framework,
-                                                **parameters)
+    def init_dataloader(self, parameters):
+        self.dataloader = self.dataloader_class(**parameters)
 
     def init_trainer(self, parameters):
         self.trainer = self.trainer_class(**parameters)
@@ -49,11 +45,19 @@ class Pipeliner:
         else:
             logging.warning('Analyser is None, analysis not performed.')
 
+    def load_data(self, data, kind):
+        self.dataloader.load_data(data, kind)
+
     # ------------- Inference functions ----------------- #
     def load_model_state(self, path):
         self.model.load(path)
 
-    def get_predictions(self, prediction_params):
-        test_data = self.dataloader.get_test_data()
-        assert(test_data is not None)
-        return self.model.predict(test_data, **prediction_params)
+    def load_scaler(self, path):
+        self.dataloader.load_scaler(path)
+
+    def predict(self, data, prediction_params):
+        self.dataloader.load_data(data, 'infer')
+        keys = list(data.keys())
+        infer_data = self.dataloader.get_infer_data()
+        predictions = self.model.predict(infer_data, **prediction_params)
+        return self.dataloader.convert_predictions_to_dict(predictions, keys) # TODO
