@@ -61,16 +61,27 @@ Le package s'utilise en ligne de commande, à partir de fichiers de configuraton
 
 Une fois l'installation effectuée, depuis le scipt `run.py` qui utilise le package pynance:
 ```shell
-python run.py -n <nom_fichier_cfg>
+python run.py -n <nom_fichier_cfg> -k <type_processus>
 ```
-Où le fichier de configuration doit être dans le dossier précisé dans le `user.cfg` sous le format `<nom>.cfg`. Le `.cfg` n'est pas à précisé, il est automatiquement ajouté par l'algorithme.
+Où le fichier de configuration doit être dans le dossier précisé dans le `user.cfg` sous le format `<nom>.cfg`. Le `.cfg` n'est pas à précisé, il est automatiquement ajouté par l'algorithme. De plus, `-n` veut dire 'name' tandis que `-k` veut dire 'kind'.
+
+Processus possibles (`-k`): train, infer, coint
 
 Exemple:
 ```shell
-python run.py -n config1
+python run.py -n basic_pred -k train
+python run.py -n basic_regr -k train
+python run.py -n coint -k coint
+python run.py -n basic_infer -k infer
 ```
 
+Cet exemple est donné dans le Makefile et peut être lancé en tapant `make basic_run`. Cela permet d'entraîner d'abord un modèle de  prédiction, puis des modèles de régression, de calculer les scores de co-intégration pour les paires possibles et enfin d'utiliser tout cela pour:
+1) Prédire le cours du marché sur les prochains jours
+2) Prédire les cours des actions à partir de ces marchés en utilisant les modèles de régression
+3) Et enfin produire une stratégie.
+
 Un dossier spécifique à la tentative est créé et contiendra les paramètres ainsi que des sauvegardes de modèles et de figures. 
+
 Des exemple de fichier de configuration sont disponibles [ici](config_files/)
 
 ## Description du package
