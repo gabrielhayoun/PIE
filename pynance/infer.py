@@ -17,44 +17,28 @@ def main(path_to_cfg):
     parameters = pynance.config.cfg_reader.read(path_to_cfg, kind='infer')
     results_dir = pynance.utils.setup.get_results_dir(parameters['general']['name'])
     pynance.utils.saving.save_configobj(parameters, results_dir, 'parameters')
-    (pipeliner_pred, pred_parameters), (pipeliner_regr, regr_parameters) = fetch_inference_model(parameters)
-
-    data_dicts, index_name = check_coherence_and_return_data(pred_parameters['data'], regr_parameters['data'])
      
-    pred_preprocessor = pipeliner_pred.dataloader.preprocessor
-    regr_preprocessor = pipeliner_regr.dataloader.preprocessor
+    (pipeliner_pred, pred_parameters), (pipeliner_regr, regr_parameters) = fetch_inference_model(parameters)
+    data_dicts, index_name = check_coherence_and_return_data(pred_parameters['data'], regr_parameters['data'])
 
-    time_series_index = pred_preprocessor.transform_df(data_dicts[index_name], index_name)
-    print(time_series_index.shape)
-    predictions_pred = pipeliner_pred.predict(
-        time_series_index,
-        {'window': parameters['inference']['window']})
-    
-    df_pred_index = pred_preprocessor.inverse_transform_df(predictions_pred.cpu().numpy(), index_name)
-    print(df_pred_index)
-    
-    # TODO: assert the features are the same for both preprocessors
-    predictions_pred_futur = regr_preprocessor.transform_df(df_pred_index, index_name)
-    prediction_regr_past = pipeliner_regr.dataloader.preprocessor.transform(data_dicts[index_name], index_name) # only index name is required here
-    
-    # past days
-    prediction_regr = pipeliner_regr.predict(
-        prediction_regr_past,
-        {})
-    # future
-    prediction_regr = pipeliner_regr.predict(
-        predictions_pred_futur,
-        {})
+    index_dict = {index_name: data_dicts[index_name]}
 
-    print(prediction_regr, len(prediction_regr))
+    pred_dict = pipeliner_pred.predict(index_dict, {'window': 10})
+    pred_dict_regr = pipeliner_regr.predict(pred_dict, {})
 
+    df_coint = pynance.coint.load_coint_file(parameters['general']['coint_name'])
+
+    for key, df_ in pred_dict_regr.items():
+        pred_dict_regr[key] = df_[parameters['strategy']['feature']].values
+    
+    pynance.strategy.basic.get_best_action(
+            df_coint,
+            pred_dict_regr,
+            **parameters['strategy']['best_action']
+    )
+    # TODO: print and save
+    
     return True
-
-def setup(parameters):
-    # objective : converts to right format and do everything required on the set of parameters for later use
-    parameters['general'] = pynance.utils.setup.setup_general_section(parameters['general'])
-    parameters['inference'] = pynance.utils.setup.setup_general_section(parameters['inference'])
-    return parameters
 
 def fetch_inference_model(parameters):
     prediction_model = parameters['inference']['prediction_model']
@@ -104,17 +88,35 @@ def replace_parameters_for_inference(infer_parameters, train_parameters):
     train_parameters['data']['end_date'] = infer_parameters['inference']['start_prediction_date']
     return train_parameters
 
+def make_dates(length_preds, init_date=None, end_date=None):
+    assert(init_date is not None or end_date is not None)
+    import datetime
+    dates = []
+    date = init_date
+    dt = datetime.timedelta(days=1)
+    if(init_date is None):
+        dt = -dt
+        date = end_date
+    while(len(dates) < length_preds):
+        date += dt
+        if(date.isoweekday() <= 5):
+            dates.append(date)
+    if(init_date is None):
+        return dates[::-1]
+    return dates
+
 def get_start_date(date, delta):
     from datetime import datetime, timedelta
     format = '%Y-%m-%d'
     date = datetime.strptime(date, format)
-    dt = timedelta(days=1)
-    return (date + delta * dt).strftime(format=format)
+    list_dates = make_dates(-delta, None, date)
+    first_date = list_dates[0].strftime(format=format)
+    return first_date
 
 def check_coherence_and_return_data(pred_data, regr_data):
     dict_stocks_pred = pynance.utils.setup.setup_data_section(pred_data) 
     dict_stocks_regr = pynance.utils.setup.setup_data_section(regr_data)
     assert(len(dict_stocks_pred) == 1)
-    index_name = list(dict_stocks_pred.keys()[0])
+    index_name = list(dict_stocks_pred.keys())[0]
     assert(index_name in dict_stocks_regr.keys())
     return dict_stocks_regr, index_name
