@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>pynance.utils.datasets package &#8212; pynance 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pynance-utils-datasets-package">
+<h1>pynance.utils.datasets package<a class="headerlink" href="#pynance-utils-datasets-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-pynance.utils.datasets.collaters">
+<span id="pynance-utils-datasets-collaters-module"></span><h2>pynance.utils.datasets.collaters module<a class="headerlink" href="#module-pynance.utils.datasets.collaters" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynance.utils.datasets.collaters.TimeSeriesCollater">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynance.utils.datasets.collaters.</span></span><span class="sig-name descname"><span class="pre">TimeSeriesCollater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/collaters.html#TimeSeriesCollater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.collaters.TimeSeriesCollater" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-pynance.utils.datasets.dataloaders">
+<span id="pynance-utils-datasets-dataloaders-module"></span><h2>pynance.utils.datasets.dataloaders module<a class="headerlink" href="#module-pynance.utils.datasets.dataloaders" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynance.utils.datasets.dataloaders.</span></span><span class="sig-name descname"><span class="pre">DataLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framework</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocessor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.convert_predictions_to_dict">
+<span class="sig-name descname"><span class="pre">convert_predictions_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.convert_predictions_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.convert_predictions_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.get_infer_data">
+<span class="sig-name descname"><span class="pre">get_infer_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.get_infer_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.get_infer_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.get_test_data">
+<span class="sig-name descname"><span class="pre">get_test_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.get_test_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.get_test_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.get_train_data">
+<span class="sig-name descname"><span class="pre">get_train_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.get_train_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.get_train_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.get_valid_data">
+<span class="sig-name descname"><span class="pre">get_valid_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.get_valid_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.get_valid_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.load_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.load_scaler">
+<span class="sig-name descname"><span class="pre">load_scaler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.load_scaler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.load_scaler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.prepare_infer_data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prepare_infer_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.prepare_infer_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.prepare_infer_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create data under the hypothesis that no ground truth is ever provided.
+Intend to be used for forecasting / regression in practice.
+Should return a list of entries, such that each entry should be used directly in the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.prepare_test_data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prepare_test_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.prepare_test_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.prepare_test_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.prepare_train_data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prepare_train_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#DataLoader.prepare_train_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.prepare_train_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.sklearn_return_type">
+<span class="sig-name descname"><span class="pre">sklearn_return_type</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sklearn'</span></em><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.sklearn_return_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.supported_frameworks">
+<span class="sig-name descname"><span class="pre">supported_frameworks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">()</span></em><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.supported_frameworks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.DataLoader.torch_return_type">
+<span class="sig-name descname"><span class="pre">torch_return_type</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pytorch'</span></em><a class="headerlink" href="#pynance.utils.datasets.dataloaders.DataLoader.torch_return_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.PredictionDataLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynance.utils.datasets.dataloaders.</span></span><span class="sig-name descname"><span class="pre">PredictionDataLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framework</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocessor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#PredictionDataLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.PredictionDataLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynance.utils.datasets.dataloaders.DataLoader" title="pynance.utils.datasets.dataloaders.DataLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.PredictionDataLoader.prepare_infer_data">
+<span class="sig-name descname"><span class="pre">prepare_infer_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#PredictionDataLoader.prepare_infer_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.PredictionDataLoader.prepare_infer_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create data under the hypothesis that no ground truth is ever provided.
+Intend to be used for forecasting / regression in practice.
+Should return a list of entries, such that each entry should be used directly in the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.PredictionDataLoader.prepare_test_data">
+<span class="sig-name descname"><span class="pre">prepare_test_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#PredictionDataLoader.prepare_test_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.PredictionDataLoader.prepare_test_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Objective: for each dataframe in the dictionnary, the time serie(s) is extracted entirely.
+Ground target is created too here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>NotImplementedError</strong> – raise en error for sklearn</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.PredictionDataLoader.prepare_train_data">
+<span class="sig-name descname"><span class="pre">prepare_train_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#PredictionDataLoader.prepare_train_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.PredictionDataLoader.prepare_train_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.PredictionDataLoader.supported_frameworks">
+<span class="sig-name descname"><span class="pre">supported_frameworks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pytorch'</span></em><a class="headerlink" href="#pynance.utils.datasets.dataloaders.PredictionDataLoader.supported_frameworks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.RegressionDataLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynance.utils.datasets.dataloaders.</span></span><span class="sig-name descname"><span class="pre">RegressionDataLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framework</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocessor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#RegressionDataLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.RegressionDataLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pynance.utils.datasets.dataloaders.DataLoader" title="pynance.utils.datasets.dataloaders.DataLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.RegressionDataLoader.convert_predictions_to_dict">
+<span class="sig-name descname"><span class="pre">convert_predictions_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#RegressionDataLoader.convert_predictions_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.RegressionDataLoader.convert_predictions_to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.RegressionDataLoader.prepare_infer_data">
+<span class="sig-name descname"><span class="pre">prepare_infer_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#RegressionDataLoader.prepare_infer_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.RegressionDataLoader.prepare_infer_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create data under the hypothesis that no ground truth is ever provided.
+Intend to be used for forecasting / regression in practice.
+Should return a list of entries, such that each entry should be used directly in the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.RegressionDataLoader.prepare_test_data">
+<span class="sig-name descname"><span class="pre">prepare_test_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#RegressionDataLoader.prepare_test_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.RegressionDataLoader.prepare_test_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.RegressionDataLoader.prepare_train_data">
+<span class="sig-name descname"><span class="pre">prepare_train_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/dataloaders.html#RegressionDataLoader.prepare_train_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.dataloaders.RegressionDataLoader.prepare_train_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pynance.utils.datasets.dataloaders.RegressionDataLoader.supported_frameworks">
+<span class="sig-name descname"><span class="pre">supported_frameworks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('pytorch',</span> <span class="pre">'sklearn')</span></em><a class="headerlink" href="#pynance.utils.datasets.dataloaders.RegressionDataLoader.supported_frameworks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pynance.utils.datasets.torch">
+<span id="pynance-utils-datasets-torch-module"></span><h2>pynance.utils.datasets.torch module<a class="headerlink" href="#module-pynance.utils.datasets.torch" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pynance.utils.datasets.torch.ForecastingInferenceDataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynance.utils.datasets.torch.</span></span><span class="sig-name descname"><span class="pre">ForecastingInferenceDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/torch.html#ForecastingInferenceDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.torch.ForecastingInferenceDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pynance.utils.datasets.torch.ForecastingInferenceDataset.get_iterator_of_inputs">
+<span class="sig-name descname"><span class="pre">get_iterator_of_inputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/torch.html#ForecastingInferenceDataset.get_iterator_of_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.torch.ForecastingInferenceDataset.get_iterator_of_inputs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pynance.utils.datasets.torch.SlidingWindowDataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pynance.utils.datasets.torch.</span></span><span class="sig-name descname"><span class="pre">SlidingWindowDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pynance/utils/datasets/torch.html#SlidingWindowDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pynance.utils.datasets.torch.SlidingWindowDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-pynance.utils.datasets">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pynance.utils.datasets" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pynance</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Paul Calot.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/pynance.utils.datasets.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
