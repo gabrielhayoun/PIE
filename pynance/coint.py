@@ -12,7 +12,7 @@ def main(path_to_cfg):
 
     df = convert_dict_to_df_with_feature(data_dicts, feature)
     significance=parameters['data']['test_level']
-    df_previous_coint = load_previous_coint(parameters['saving_name'])
+    df_previous_coint = load_coint_file(parameters['saving_name'])
     length = len(df_previous_coint)
     score_matrix, pvalue_matrix = pynance.strategy.cointegration.test_cointegration(df.values)
 
@@ -68,7 +68,7 @@ def convert_dict_to_df_with_feature(data_dicts, feature):
     df.sort_index(axis=1, ascending=True, inplace=True) # sort columns in place
     return df
     
-def load_previous_coint(name):
+def load_coint_file(name):
     path = pynance.utils.user.get_path_to_results() / f'{name}.csv'
     if(path.is_file()):
         df = pd.read_csv(path, index_col=0)
