@@ -21,5 +21,6 @@ setuptools.setup(
     ],
     packages=setuptools.find_packages(),
     # python_requires=">=3.7",
-    # package_data={'package_name':  ['config/spec.ini',]}
+    package_data={'package_name':  ['config/spec_train.cfg', 'config/spec_infer.cfg',
+                                    'config/spec_coint.cfg', 'config/spec_crypto.cfg']}
 )
