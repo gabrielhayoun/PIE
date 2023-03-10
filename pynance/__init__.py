@@ -7,3 +7,4 @@ from pynance import strategy
 # hgiher level modules
 from pynance import train
 from pynance import infer
+from pynance import coint
