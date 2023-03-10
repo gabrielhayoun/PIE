@@ -13,12 +13,13 @@ def print_usage():
     print('`.cfg` is automatically added to the name')
     print(f'File <cfg_name>.cfg should exist in folder {pynance.utils.user.get_path_to_config_files()}')
     print('To change it, modify `USERCFG` file.')
-    print('Available kind process: train, infer, crypto.')
+    print('Available kind process: train, infer, crypto, coint.')
 
 def get_function_from_kind(kind):
     switch = {
         'train': pynance.train.main,
         'infer': pynance.infer.main,
+        'coint': pynance.coint.main
         # 'crypto': pynance.crypto.main
     }
     return switch.get(kind, "Invalid input")
