@@ -1,7 +1,7 @@
 import pynance
 from datetime import datetime
 
-def get_results_dir(name, add_date=True, create_dir=True):
+def get_results_dir(name, add_date=False, create_dir=True):
     if(add_date):
         now = datetime.now().strftime(format='%Y%m%d%H%M')
         results_dir = pynance.utils.user.get_path_to_results() / '{}_{}'.format(now, name)
