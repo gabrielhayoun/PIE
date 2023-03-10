@@ -20,6 +20,7 @@ from pynance.utils.user import get_path_to_data
 train_spec_filename = str((Path(__file__).resolve().parents[0]/'spec_train.cfg').resolve())  
 infer_spec_filename = str((Path(__file__).resolve().parents[0]/'spec_infer.cfg').resolve())  
 crypto_spec_filename = str((Path(__file__).resolve().parents[0]/'spec_crypto.cfg').resolve())  
+coint_spec_filename = str((Path(__file__).resolve().parents[0]/'spec_coint.cfg').resolve())  
 
 def read(file_name, kind):
     if(kind == 'train'):
@@ -28,8 +29,10 @@ def read(file_name, kind):
         spec_file = infer_spec_filename
     elif(kind == 'crypto'):
         spec_file = crypto_spec_filename
+    elif(kind == 'coint'):
+        spec_file = coint_spec_filename
     else:
-        raise ValueError(f'Not recognized kind {kind}. Available: train, infer, crypto.')
+        raise ValueError(f'Not recognized kind {kind}. Available: train, infer, crypto, coint.')
 
     return _read(file_name, spec_file)
 

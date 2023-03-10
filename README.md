@@ -4,6 +4,7 @@ Dans le cadre du *Projet Ingénierie et Entreprise* à l'ISAE SUPAERO en derniè
 ## Installation
 
 ### Environnement conda
+> pip install ccxt
 Modules nécessaires et installation dans un conda env :
 ```shell
 conda create -n pienv python==3.9 pandas matplotlib yfinance pandas-datareader seaborn scikit-learn ipykernel ipympl configobj tqdm -c conda-forge -c anaconda -y
