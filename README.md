@@ -85,7 +85,9 @@ Un dossier spécifique à la tentative est créé et contiendra les paramètres 
 Des exemple de fichier de configuration sont disponibles [ici](config_files/)
 
 ## Description du package
-Se référer à <TODO>.
+Se référer à:
+- [documentation](pynance/docs/build/html) depuis le répertoire et ouvrir le fichier `index.html`.
+- [documentation depuis git](http://htmlpreview.github.io/?https://github.com/gabrielhayoun/PIE/blob/paul/pynance/docs/build/html/index.html)
 
 ## Auteurs
 - [CALOT Paul](https://www.linkedin.com/in/paul-calot-43549814b/)
