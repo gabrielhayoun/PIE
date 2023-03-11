@@ -4,15 +4,13 @@ import pandas_datareader.data as web
 import yfinance as yf
 
 # Return the stock tag of companies for a category
-def read_txt(name, verbose=False):
-    x=[]
+def read_txt(name):
+    lines = []
     data_path = user.get_path_to_data()
     with open(data_path / (name + '.txt'), 'r') as fp:
         for line in fp:
-            x.append(line[:-1])
-    if verbose:
-        print('Done')
-    return x
+            lines.append(line.rstrip())
+    return lines
 
 # Write a stock name in the appropriate list
 # tag_list => ['IBM', 'GOOGL']
@@ -63,7 +61,6 @@ def write_idx_txt(tag_list, name, verbose = False):
                 fp.write("%s\n" % item)
     if verbose:
         print('Done')
-
 
 def get_financial_datas(x, start = '1999-01-01', end=None,
                         conversion = True, remove_nan=True,
