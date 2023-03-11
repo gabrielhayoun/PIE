@@ -23,3 +23,21 @@ def plot_stock_values(plot_dict, saving_path):
     fig.savefig(saving_path, dpi=300)
     return fig, ax
 
+# -------------- crypto live ----------
+
+def plot_opportunity(zscore, ax=None):
+    #Affichage du cours présent (aide à la décision)
+    if(ax is None):
+        fig, ax = plt.subplots(figsize=(6, 4))
+    buy = zscore.copy()
+    sell = zscore.copy()
+    buy[zscore>-1] = -10
+    sell[zscore<1] = -10
+    ax.set_ylim(-2,3)
+    ax.plot(zscore, label='ratio')
+    ax.plot(buy, color='g', linestyle='None', marker='^', label='buy position')
+    ax.plot(sell,color='r', linestyle='None', marker='^', label='sell position')
+    ax.axhline(0, color='black')
+    ax.axhline(1.0, color='red')
+    ax.axhline(-1.0, color='green')
+    return ax

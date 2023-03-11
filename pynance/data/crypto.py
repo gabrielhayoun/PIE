@@ -1,6 +1,9 @@
 import ccxt
 import pandas as pd
 import pynance
+import numpy as np
+import time
+import tqdm
 
 # --------------- Stock Time Series --------------- #
 def get_exchange_object_from_name(name):
@@ -20,9 +23,9 @@ def get_exchange_object_from_name(name):
     # parenthesis to instantiate the class and return the object
     # we don't want to instantiate class before
 
-def get_crypto_data(exchange, paire, timeframe, limit):
+def get_crypto_data(exchange, ticker, timeframe, limit):
     exchange = get_exchange_object_from_name(exchange)
-    ohlcv = exchange.fetch_ohlcv(paire, timeframe=timeframe, limit=limit)
+    ohlcv = exchange.fetch_ohlcv(ticker, timeframe=timeframe, limit=limit)
     df = pd.DataFrame(ohlcv, columns=['TIMESTAMP','OPEN','HIGH', 'LOW', 'CLOSE',' VOLUME'])
     df['TIMESTAMP'] = pd.to_datetime(df['TIMESTAMP'], unit='ms')
     return format_crypto_df(df)
@@ -41,23 +44,24 @@ def format_crypto_df(df):
     return df
 
 # --------------- Real time --------------------- #
-def get_bid_ask(exchange, paire, limit=20, verbose=False):
-    i=0
-    time_list = []
-    bid_list = []
-    ask_list = []
+def get_bid_ask(exchange, crypto1, crypto2, limit=20):
+    bid1_list = []
+    bid2_list = []
     exchange = get_exchange_object_from_name(exchange)
-    while i < limit:
-        time, bid, ask = get_last_bid_ask(exchange, paire)
-        time_list.append(time)
-        bid_list.append(bid)
-        ask_list.append(ask)
-        if verbose:
-            print('Time =',time[i],'Bid =',bid[i],'Ask =',ask[i])
-        i+=1
+    for i in tqdm.tqdm(range(limit)):
+        t1 = time.time()
+        _, bid1, _ = get_last_bid_ask(exchange, crypto1)
+        _, bid2, _ = get_last_bid_ask(exchange, crypto2)
+        bid1_list.append(bid1)
+        bid2_list.append(bid2)
+        t2 = time.time()
+        sleep_time = 1 - (t2 - t1)
+        if(sleep_time > 0):
+            time.sleep(sleep_time)
+    return np.array(bid1_list), np.array(bid2_list)
 
 def get_last_bid_ask(exchange, paire):
-    exchange_book = exchange.fetch_order_book((paire))
+    exchange_book = exchange.fetch_order_book(paire, limit=1)
     last_bid = exchange_book["bids"][0][0]
     last_ask = exchange_book["asks"][0][0]
     now = exchange.milliseconds()

@@ -75,37 +75,37 @@ def get_best_action(df_coint, data_dicts, p_value_limit, money, risk, nb_pairs, 
     print("Total gain :", df_coint_['performance'].sum())
     return df_coint_
 
-def best_action_old(dico1, data, nb_pair, p_value_limite, money, risk, risque=False):
-    dico2 = {}
-    # On parcourt dico1 pour récupérer les paires dont les p_value sont inférieures à p_value_limite
-    for key, value in dico1.items():
-        if value < p_value_limite:
-            dico2[key] = value
-    if risque : 
-        dico3 = {}
-        for key, value in dico2.items():
-            dico3[key] = get_performance(data[key[0]], data[key[1]], risk, money)
-        # On trie dico3 par ordre décroissant de performance
-        dico3 = sorted(dico3.items(), key=lambda x: x[1], reverse = True)
-        # On récupère les nb_pair premières paires
-        dico3 = dico3[:nb_pair]
-        gain = []
-        for i in range(len(dico3)):
-            gain.append(get_performance(data[dico3[i][0][0]], data[dico3[i][0][1], risk, money]))
-    else :    
-        # On trie dico2 par ordre croissant de p_value
-        dico2 = sorted(dico2.items(), key=lambda x: x[1])
-        # On récupère les nb_pair premières paires
-        dico2 = dico2[:nb_pair]
-        gain = []
-        for i in range(len(dico2)):
-            gain.append(performance(data[dico2[i][0][0]], data[dico2[i][0][1]], risk, money))
-    # On affiche les gains potentiels de chaque paire
-    if risque :
-        for i in range(len(dico3)):
-            print("Gain potentiel de la paire", dico3[i][0], ":", dico3[i][1])
-            print("Gain Total théorique :", sum(gain))
-    else :
-        for i in range(len(dico2)):
-            print("Gain potentiel de la paire", dico2[i][0], ":", dico2[i][1])
-            print("Gain Total théorique :", sum(gain))
+# def best_action_old(dico1, data, nb_pair, p_value_limite, money, risk, risque=False):
+#     dico2 = {}
+#     # On parcourt dico1 pour récupérer les paires dont les p_value sont inférieures à p_value_limite
+#     for key, value in dico1.items():
+#         if value < p_value_limite:
+#             dico2[key] = value
+#     if risque : 
+#         dico3 = {}
+#         for key, value in dico2.items():
+#             dico3[key] = get_performance(data[key[0]], data[key[1]], risk, money)
+#         # On trie dico3 par ordre décroissant de performance
+#         dico3 = sorted(dico3.items(), key=lambda x: x[1], reverse = True)
+#         # On récupère les nb_pair premières paires
+#         dico3 = dico3[:nb_pair]
+#         gain = []
+#         for i in range(len(dico3)):
+#             gain.append(get_performance(data[dico3[i][0][0]], data[dico3[i][0][1], risk, money]))
+#     else :    
+#         # On trie dico2 par ordre croissant de p_value
+#         dico2 = sorted(dico2.items(), key=lambda x: x[1])
+#         # On récupère les nb_pair premières paires
+#         dico2 = dico2[:nb_pair]
+#         gain = []
+#         for i in range(len(dico2)):
+#             gain.append(performance(data[dico2[i][0][0]], data[dico2[i][0][1]], risk, money))
+#     # On affiche les gains potentiels de chaque paire
+#     if risque :
+#         for i in range(len(dico3)):
+#             print("Gain potentiel de la paire", dico3[i][0], ":", dico3[i][1])
+#             print("Gain Total théorique :", sum(gain))
+#     else :
+#         for i in range(len(dico2)):
+#             print("Gain potentiel de la paire", dico2[i][0], ":", dico2[i][1])
+#             print("Gain Total théorique :", sum(gain))
