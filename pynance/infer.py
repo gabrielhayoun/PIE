@@ -9,7 +9,8 @@ import pynance
 2) get models path from params
 3) Load prediction model and regression models
 4) Make prediction
-5) Possibly call strategy here ?
+5) Call strategy
+6) Save results
 """
 
 def main(path_to_cfg):
@@ -17,44 +18,66 @@ def main(path_to_cfg):
     parameters = pynance.config.cfg_reader.read(path_to_cfg, kind='infer')
     results_dir = pynance.utils.setup.get_results_dir(parameters['general']['name'])
     pynance.utils.saving.save_configobj(parameters, results_dir, 'parameters')
-     
+
     (pipeliner_pred, pred_parameters), (pipeliner_regr, regr_parameters) = fetch_inference_model(parameters)
     data_dicts, index_name = check_coherence_and_return_data(pred_parameters['data'], regr_parameters['data'])
 
     index_dict = {index_name: data_dicts[index_name]}
-    
-    pred_dict = pipeliner_pred.predict(index_dict, {'window': parameters['inference']['window']})
-    pred_dict_regr = pipeliner_regr.predict(pred_dict, {})
 
+    # Prediction of the next days - first on the index (market)
+    # then using the regression    
+    # pred_dict include the predictions on past values too (that is intermediary returns on the RNN model in this case ...)
+    pred_window = parameters['inference']['window']
+    pred_dict = pipeliner_pred.predict(index_dict, {'window': pred_window})
+    regr_dict = pipeliner_regr.predict(pred_dict, {})
+
+    # Dealing with strategy
     df_coint = pynance.coint.load_coint_file(parameters['general']['coint_name'])
 
     selected_feature = parameters['strategy']['feature']
-    for key, df_ in pred_dict_regr.items():
-        pred_dict_regr[key] = df_[selected_feature].values
+    regr_dict_arr = {}
+    for key, df_ in regr_dict.items():
+        regr_dict_arr[key] = df_[selected_feature].values[-pred_window:]
     
     df_best_action = pynance.strategy.basic.get_best_action(
             df_coint,
-            pred_dict_regr,
+            regr_dict_arr,
             **parameters['strategy']['best_action']
     )
     df_best_action.to_csv(results_dir / 'best_action.csv')
-    
+
+    # Plots - prediction using the regression models are done 
+    # because it gives a hint on results quality when compared to the truth 
+    # that we have.
     preds_passed = pipeliner_regr.predict(index_dict, {})    
     dates = index_dict[index_name].index.to_pydatetime()
     init_date = dates[-1]
-    pred_dates = make_dates(parameters['inference']['window'],
-                            init_date)
+    pred_dates = pynance.utils.dates.make_dates(pred_window, init_date)
 
-    for key, arr_pred_future in pred_dict_regr.items():
+    for key, arr_pred_future in regr_dict_arr.items():
         df_true = data_dicts[key]
         df_pred_passed = preds_passed[key]
-
+        df_pred_passed_from_pred = regr_dict[key]
+    
         x_pred_passed, y_pred_passed = dates, df_pred_passed[selected_feature].values
         x_pred_future, y_pred_future = pred_dates, arr_pred_future
-        x_pred, y_pred = np.concatenate((x_pred_passed, x_pred_future), axis=0), np.concatenate((y_pred_passed, y_pred_future), axis=0)
         x_true, y_true = dates, df_true[selected_feature].values 
+        x_full_pred, y_full_pred = dates[1:], df_pred_passed_from_pred[selected_feature].values[:-pred_window]
+    
+        pynance.utils.plot.plot_stock_values({
+                'true': (x_true, y_true),
+                'future': (x_pred_future, y_pred_future),
+                'regr - true past': (x_pred_passed, y_pred_passed),
+                'regr - pred past': (x_full_pred, y_full_pred)
+            },
+            results_dir / f'{key}.png')
 
-        plot_stock_values(x_true, y_true, x_pred, y_pred, results_dir / f'{key}.png')
+    pynance.utils.plot.plot_stock_values({
+        'true': (dates, index_dict[index_name][selected_feature].values),
+        'pred': (np.concatenate((dates[1:], pred_dates), axis=0), pred_dict[index_name][selected_feature].values)
+        },
+        results_dir / f'{index_name}.png'
+    )
 
     return True
 
@@ -99,37 +122,13 @@ def get_pipeliner(parameters):
 def replace_parameters_for_inference(infer_parameters, train_parameters):
     # for now
     train_parameters['general']['name'] = infer_parameters['general']['name']
-    train_parameters['data']['start_date'] = get_start_date(
+    train_parameters['data']['start_date'] = pynance.utils.dates.get_start_date(
         infer_parameters['inference']['start_prediction_date'],
         - infer_parameters['inference']['training_window']
         )
     train_parameters['data']['end_date'] = infer_parameters['inference']['start_prediction_date']
     return train_parameters
 
-def make_dates(length_preds, init_date=None, end_date=None):
-    assert(init_date is not None or end_date is not None)
-    import datetime
-    dates = []
-    date = init_date
-    dt = datetime.timedelta(days=1)
-    if(init_date is None):
-        dt = -dt
-        date = end_date
-    while(len(dates) < length_preds):
-        date += dt
-        if(date.isoweekday() <= 5):
-            dates.append(date)
-    if(init_date is None):
-        return dates[::-1]
-    return dates
-
-def get_start_date(date, delta):
-    from datetime import datetime, timedelta
-    format = '%Y-%m-%d'
-    date = datetime.strptime(date, format)
-    list_dates = make_dates(-delta, None, date)
-    first_date = list_dates[0].strftime(format=format)
-    return first_date
 
 def check_coherence_and_return_data(pred_data, regr_data):
     dict_stocks_pred = pynance.utils.setup.setup_data_section(pred_data) 
@@ -138,19 +137,4 @@ def check_coherence_and_return_data(pred_data, regr_data):
     index_name = list(dict_stocks_pred.keys())[0]
     assert(index_name in dict_stocks_regr.keys())
     return dict_stocks_regr, index_name
-
-def plot_stock_values(x_true, y_true, x_pred, y_pred, saving_path):
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    fig, ax = plt.subplots(figsize=(4, 3),
-                           constrained_layout=True)
-                        #    sharex=True, sharey=True)
-    sns.lineplot(x=x_true, y=y_true, label="truth", ax=ax)
-    sns.lineplot(x=x_pred, y=y_pred, label="pred", ax=ax)
-    ax.set_title(saving_path.stem)
-    ax.tick_params(labelrotation=45)
-    ax.set_xlabel('date')
-    ax.set_ylabel('stock value')
-    fig.savefig(saving_path, dpi=300)
-    return fig, ax
 
