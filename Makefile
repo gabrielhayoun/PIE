@@ -8,11 +8,28 @@ update:
 	make uninstall
 	make install
 
-basic_run:
-	python run.py -n basic_pred -k train
-	python run.py -n basic_regr -k train
-	python run.py -n coint -k coint
-	python run.py -n basic_infer -k infer
+techus_run:
+	python run.py -n techus_pred -k train
+	python run.py -n techus_regr -k train
+	python run.py -n techus_coint -k coint
+	python run.py -n techus_infer -k infer
+
+luxefr_run:
+	python run.py -n luxefr_pred -k train
+	python run.py -n luxefr_regr -k train
+	python run.py -n luxefr_coint -k coint
+	python run.py -n luxefr_infer -k infer
+
+deffr_run:
+	python run.py -n deffr_pred -k train
+	python run.py -n deffr_regr -k train
+	python run.py -n deffr_coint -k coint
+	python run.py -n deffr_infer -k infer
+
+runs:
+	make techus_run
+	make luxefr_run
+	make deffr_run
 
 clean:
 	rm -rf pynance.egg-info/
