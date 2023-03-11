@@ -40,19 +40,29 @@ class TFnaive(torch.nn.Module):
             return X
         return X[:, -1, :]
 
-    def predict(self, dataset, window):
+    def predict(self, dataset, window, return_intermediary=True):
         with torch.no_grad():
             list_preds = []
             for X in dataset:
                 assert(len(X.shape) == 2) # nb feature x length
                 X = torch.unsqueeze(X, dim=0)
+                X_past = None
                 list_pred = []
                 for k in range(window):
-                    X_ = self.forward(X) # size is batch_size x number of features - batch size is 1
+                    X_total = self.forward(X, return_intermediary=return_intermediary)  # size is batch_size x number of preds x number of features - batch size is 1
+                    if(return_intermediary):
+                        X_ = X_total[:, -1, :]  # size is batch_size x number of features - batch size is 1
+                        if(X_past is None):
+                            X_past = X_total[0, :-1, :]
+                    else:
+                        X_ = X_total
                     X_tmp = torch.cat([X, torch.unsqueeze(X_, dim=2)], dim=2)
                     X = X_tmp[:, :, 1:] # take last one and go again
                     list_pred.append(X_[0])
-                list_preds.append(torch.stack(list_pred, axis=0))  # TODO: know what we are really supposed to return here ???
+                X_future = torch.stack(list_pred, axis=0)
+                if(return_intermediary):
+                    X_future = torch.concat((X_past, X_future), axis=0)
+                list_preds.append(X_future)  # TODO: know what we are really supposed to return here ???
         return torch.transpose(torch.stack(list_preds, dim=0), 1, 2).cpu().numpy() # always return numpy
         # shape: number in dataset x nb features x nb samples
     
