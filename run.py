@@ -19,8 +19,8 @@ def get_function_from_kind(kind):
     switch = {
         'train': pynance.train.main,
         'infer': pynance.infer.main,
-        'coint': pynance.coint.main
-        # 'crypto': pynance.crypto.main
+        'coint': pynance.coint.main,
+        'crypto': pynance.crypto.main
     }
     return switch.get(kind, "Invalid input")
 

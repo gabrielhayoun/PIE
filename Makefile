@@ -36,3 +36,6 @@ clean:
 	rm -rf **__pycache__/
 	rm -rf dist/
 	rm -rf build/
+
+make crypto_live:
+	python run.py -n crypto -k crypto
