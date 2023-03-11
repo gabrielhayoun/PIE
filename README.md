@@ -6,11 +6,16 @@ Dans le cadre du *Projet Ingénierie et Entreprise* à l'ISAE SUPAERO en derniè
 ### Environnement conda
 Modules nécessaires et installation dans un conda env :
 ```shell
-conda create -n pienv python==3.9 pandas matplotlib yfinance pandas-datareader seaborn scikit-learn ipykernel ipympl configobj tqdm pip-ccxt  -c conda-forge -c anaconda -c rodgomesc -y
+conda create -n pienv python==3.9 pandas matplotlib yfinance pandas-datareader seaborn scikit-learn ipykernel ipympl configobj tqdm  -c conda-forge -c anaconda -y
 ```
 Puis activer le :
 ```shell
 conda activate pienv 
+```
+
+Installer ensuite `ccxt`:
+```shell
+pip install ccxt
 ```
 
 Ensuite installer la version de pytorch adaptée à votre système ([ici](https://pytorch.org/)) et [tensorboard](https://pytorch.org/tutorials/recipes/recipes/tensorboard_with_pytorch.html) (`pip install tensorboard` devrait suffire).
