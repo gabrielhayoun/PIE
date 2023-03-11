@@ -28,16 +28,11 @@ def get_opportunity(exchange, crypto1, crypto2, mean=None, std=None):
     
     serie_actuelle=S1_actuel/S2_actuel
     zscore_actuel = (serie_actuelle - mean) / std
-    i=0
-    j=0
-    k=0
-    for i in range(len(S1_actuel)):
-        if zscore_actuel[i] < -1:
-            i+=1
-        elif zscore_actuel[i] > 1:
-            j+=1
-        elif abs(zscore_actuel[i]) < 0.75:
-            k+=1
+
+    i = np.count_nonzero(zscore_actuel < -1)
+    j = np.count_nonzero(zscore_actuel > 1)
+    k = np.count_nonzero(np.abs(zscore_actuel) < 0.75)
+   
     #Si le ratio passe plus de 5 seconde dans une zone d'interet un conseil de prise de position est proposé
     if i>5:
         print("Il y a une opportunité de gain, achat de "+crypto1+" et vente de "+crypto2)
