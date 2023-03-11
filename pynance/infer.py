@@ -22,22 +22,40 @@ def main(path_to_cfg):
     data_dicts, index_name = check_coherence_and_return_data(pred_parameters['data'], regr_parameters['data'])
 
     index_dict = {index_name: data_dicts[index_name]}
-
-    pred_dict = pipeliner_pred.predict(index_dict, {'window': 10})
+    
+    pred_dict = pipeliner_pred.predict(index_dict, {'window': parameters['inference']['window']})
     pred_dict_regr = pipeliner_regr.predict(pred_dict, {})
 
     df_coint = pynance.coint.load_coint_file(parameters['general']['coint_name'])
 
+    selected_feature = parameters['strategy']['feature']
     for key, df_ in pred_dict_regr.items():
-        pred_dict_regr[key] = df_[parameters['strategy']['feature']].values
+        pred_dict_regr[key] = df_[selected_feature].values
     
-    pynance.strategy.basic.get_best_action(
+    df_best_action = pynance.strategy.basic.get_best_action(
             df_coint,
             pred_dict_regr,
             **parameters['strategy']['best_action']
     )
-    # TODO: print and save
+    df_best_action.to_csv(results_dir / 'best_action.csv')
     
+    preds_passed = pipeliner_regr.predict(index_dict, {})    
+    dates = index_dict[index_name].index.to_pydatetime()
+    init_date = dates[-1]
+    pred_dates = make_dates(parameters['inference']['window'],
+                            init_date)
+
+    for key, arr_pred_future in pred_dict_regr.items():
+        df_true = data_dicts[key]
+        df_pred_passed = preds_passed[key]
+
+        x_pred_passed, y_pred_passed = dates, df_pred_passed[selected_feature].values
+        x_pred_future, y_pred_future = pred_dates, arr_pred_future
+        x_pred, y_pred = np.concatenate((x_pred_passed, x_pred_future), axis=0), np.concatenate((y_pred_passed, y_pred_future), axis=0)
+        x_true, y_true = dates, df_true[selected_feature].values 
+
+        plot_stock_values(x_true, y_true, x_pred, y_pred, results_dir / f'{key}.png')
+
     return True
 
 def fetch_inference_model(parameters):
@@ -120,3 +138,19 @@ def check_coherence_and_return_data(pred_data, regr_data):
     index_name = list(dict_stocks_pred.keys())[0]
     assert(index_name in dict_stocks_regr.keys())
     return dict_stocks_regr, index_name
+
+def plot_stock_values(x_true, y_true, x_pred, y_pred, saving_path):
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    fig, ax = plt.subplots(figsize=(4, 3),
+                           constrained_layout=True)
+                        #    sharex=True, sharey=True)
+    sns.lineplot(x=x_true, y=y_true, label="truth", ax=ax)
+    sns.lineplot(x=x_pred, y=y_pred, label="pred", ax=ax)
+    ax.set_title(saving_path.stem)
+    ax.tick_params(labelrotation=45)
+    ax.set_xlabel('date')
+    ax.set_ylabel('stock value')
+    fig.savefig(saving_path, dpi=300)
+    return fig, ax
+
