@@ -96,6 +96,13 @@ Chaque appel permet d'entraîner d'abord un modèle de prédiction de cours futu
 
 Un dossier spécifique à la tentative est créé et contiendra les paramètres ainsi que des sauvegardes de modèles et de figures. 
 
+### Crypto en direct
+Il est également possible d'étudier le cours du marché des cryto en direct. Pour cela, on précise la plateforme d'échange et deux cryptos qu'on voudrait échanger (se référer aux fichiers de configuration pour un exemple). Puis on lance le code. Par exemple:
+```shell
+python run.py -n crypto -k crypto
+```
+Ou sinon on peut également lancer directement : `make crypto_live`.
+
 Des exemple de fichier de configuration sont disponibles [ici](config_files/)
 
 ### Utilisation des fichiers de configuration
