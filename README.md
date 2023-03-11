@@ -35,16 +35,12 @@ Il doit contenir :
 [pie]
 path_to_data = votre/chemin/vers/le/dossier
 path_to_results = votre/chemin/vers/le/dossier
-path_to_trained_models = votre/chemin/vers/le/dossier
 path_to_configuration_file = votre/chemin/vers/le/dossier
 ```
-
-Pour l'instant seuls `path_to_data` et `path_to_data` vous seront utiles.
 
 Description de chaque chemin :
 - path_to_data : pointe vers le dossier contenant les fichiers *.txt* avec les noms des stocks dedans. Le format doit correspondre aux exemples fournis dans [ce dossier](data/tech_us.txt).
 - path_to_results : pointe vers le dossier où seront automatiquement sauvegardés les résultats des entraînements par exemple. Rappel : sur git, on ne push que du code (sauf à utiliser Git LFS)
-- path_to_trained_models : pointera vers le dossier contnant les modèles déjà entraînés. Sera utile lorsqu'on utilisera des modèles entraînés (par exemple dans la phase de stratégie)
 - path_to_configuration_file : Sera utile dans un second temps pour la phase opérationnelle. Une fois que le code sera bien développé, il est plus aisé d'utiliser des fichiers de configuration pour lancer des entraînements voire des analyses.
 
 Une fois cela fait, il est nécessaire d'ajouter le fichier aux variables d'environnement sous le nom : USERCFG.
