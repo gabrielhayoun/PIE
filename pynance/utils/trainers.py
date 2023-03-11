@@ -83,7 +83,7 @@ class TorchTrainer(Trainer):
 
             avg_vloss = self._evaluate(model, valid_loader)
 
-            message = "epoch:{}-train{:0.3f}-valid{:0.3f}".format(epoch, avg_loss, avg_vloss)
+            message = "epoch: {} - train: {:0.3f} - valid: {:0.3f}".format(epoch, avg_loss, avg_vloss)
             pbar.set_description(message)
             # logging.log(msg=message)
     

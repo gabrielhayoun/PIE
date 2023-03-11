@@ -8,6 +8,7 @@ import pynance
 # with models with trained params
 
 def main(path_to_cfg):
+    print('\n#-------------------------- TRAINING PROCESS --------------------#')
     # General parameters
     parameters = pynance.config.cfg_reader.read(path_to_cfg, kind='train')
     results_dir = pynance.utils.setup.get_results_dir(parameters['general']['name'])
@@ -19,8 +20,10 @@ def main(path_to_cfg):
 
     pipeliner = pynance.utils.setup.create_and_init_pipeliner(**pipeliner_params)
     
+    print('\nTRAINING')
     pipeliner.train()
     # pipeliner.evaluate()
     # pipeliner.analyze()
+    print('\n------------------ END -----------------\n')
 
     return True

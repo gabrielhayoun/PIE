@@ -2,8 +2,11 @@
 import pynance
 import pandas as pd
 import datetime
+import tqdm
 
 def main(path_to_cfg):
+    print('\n#------------------ COINTEGRATION PROCESS -----------------#\n')
+
     # General parameters
     parameters = pynance.config.cfg_reader.read(path_to_cfg, kind='coint')
     
@@ -22,9 +25,12 @@ def main(path_to_cfg):
     now = datetime.datetime.now().strftime(format=format)
     tickers = df.columns # always sorted
     rows = []
-    for i, ticker1 in enumerate(tickers):
+    pbar = tqdm.tqdm(enumerate(tickers))
+
+    for i, ticker1 in pbar:
         for j in range(i+1, len(tickers)):
             ticker2 = tickers[j]
+            pbar.set_description(f'pair: {ticker1}-{ticker2}')
             score = score_matrix[i, j]
             pvalue = pvalue_matrix[i, j]
             is_coint = False
@@ -53,6 +59,9 @@ def main(path_to_cfg):
     nb_new_pairs = len(df_previous_coint)-length
     print('Added {} new pairs.'.format(nb_new_pairs))
     print('Updated {} pairs.'.format(len(new_df) - nb_new_pairs))
+
+    print('\n------------------ END -----------------\n')
+
 
 def convert_dict_to_df_with_feature(data_dicts, feature):
     df = pd.DataFrame()

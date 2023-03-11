@@ -18,11 +18,15 @@ def setup_pipeliner_params(parameters, kind):
     framework = parameters['general']['framework']
     task = parameters['general']['task']
 
+    print(f'\n------------------- Setting {kind} pipeliner --------------')
+    print('Loading preprocesser...')
     preprocessor_class, preprocessor_parameters = pynance.utils.setup.setup_preprocessor_section(parameters['preprocessor'])
     preprocesser = preprocessor_class(**preprocessor_parameters)
 
     parameters['general'] = pynance.utils.setup.setup_general_section(parameters['general'])
+    print('Loading model class...')
     model_class, model_parameters = pynance.utils.setup.setup_model_section(parameters['model'])
+    print('Loading trainer class...')
     trainer_class, trainer_parameters = pynance.utils.setup.setup_training_section(parameters['training'], framework, task, parameters['general']['results_dir'])
     
     # TODO: should not be here I feel.
@@ -30,17 +34,21 @@ def setup_pipeliner_params(parameters, kind):
         train_data = None
         test_data = None
     elif(kind=='train'):
+        print('Loading data...', end='')
         dict_stocks = pynance.utils.setup.setup_data_section(parameters['data'])
-        
+        print(f'Number of tickers: {len(dict_stocks)}.')
+
+        print('Initializing preprocessor with data... ')
         preprocesser.init_preprocessor(dict_stocks)
-        
         scaler_path = parameters['general']['results_dir'] / 'scaler'
         scaler_path.mkdir(parents=False, exist_ok=True)
+        print(f'Saving data scalers to {scaler_path}...')
         preprocesser.save(scaler_path)
         
         train_data = dict_stocks
         test_data = None
 
+    print('Initializing dataloader class...')
     dataloader_class, dataloader_parameters = pynance.utils.setup.setup_dataloader_section(parameters['dataloader'],
                                                                                            preprocesser,
                                                                                            framework,
@@ -58,6 +66,7 @@ def setup_pipeliner_params(parameters, kind):
         'trainer_parameters': trainer_parameters,
         'analyzer_parameters': None
     }
+    print(f'Pipeliner parameters are set for {kind} process type.')
     return pipeliner_params
 
 def setup_general_section(parameters):
@@ -121,8 +130,8 @@ def setup_data_section(parameters):
         tickers, start=parameters['start_date'], end=parameters['end_date'],
         conversion=True, return_type=parameters['return_type'])
     parameters['dict_stocks'] = dict_stocks
-    for key, value in dict_stocks.items():
-        print(f'{key} - rows:{len(value)} - columns: {value.columns}')
+    # for key, value in dict_stocks.items():
+    #     print(f'{key} - rows:{len(value)} - columns: {value.columns}')
     return dict_stocks
 
 def setup_inference_section(parameters):
@@ -143,15 +152,21 @@ def create_and_init_pipeliner(
         dataloader_parameters,
         trainer_parameters,
         analyzer_parameters):
+    print('\n------------------------- PIPELINER -----------------')
+    print('Initializing pipeliner...')
     pipeliner = pynance.utils.pipeliners.Pipeliner(
         model_class,
         dataloader_class,
         trainer_class=trainer_class,
         analyser_class=analyzer_class
     )
+    print('Initializing model...')
     pipeliner.init_model(model_parameters)
+    print('Initializing dataloader...')
     pipeliner.init_dataloader(dataloader_parameters)
+    print('Initializing trainer...')
     pipeliner.init_trainer(trainer_parameters)
+    print('Initializing analyzer...')
     pipeliner.init_analyser(analyzer_parameters)
     return pipeliner
 

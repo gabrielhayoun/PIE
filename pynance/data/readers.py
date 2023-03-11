@@ -79,8 +79,8 @@ def get_financial_datas(x, start = '1999-01-01', end=None,
     assert(return_type in ["returns", "raw"])
     stk_data = {}
     for i in x:
-        stk_data[i] = yf.download(i, start=start, end=end)
-        print(f'Download {len(stk_data[i])} data for {i} from {start} to {end}.')
+        stk_data[i] = yf.download(i, start=start, end=end, progress=False)
+        print(f'Downloaded {len(stk_data[i])} data for {i} from {start} to {end}.')
     if conversion:
         conversion_us = 'DEXUSEU'
         ccy_data = web.DataReader(conversion_us, 'fred', start=start, end=end)

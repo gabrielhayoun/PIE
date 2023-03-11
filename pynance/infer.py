@@ -14,6 +14,7 @@ import pynance
 """
 
 def main(path_to_cfg):
+    print('\n#-------------------------- FORECASTING PROCESS --------------------#')
     # General parameters
     parameters = pynance.config.cfg_reader.read(path_to_cfg, kind='infer')
     results_dir = pynance.utils.setup.get_results_dir(parameters['general']['name'])
@@ -27,11 +28,15 @@ def main(path_to_cfg):
     # Prediction of the next days - first on the index (market)
     # then using the regression    
     # pred_dict include the predictions on past values too (that is intermediary returns on the RNN model in this case ...)
+    print('Making predictions... ', end='')
     pred_window = parameters['inference']['window']
+    print('Forecasting... ', end='')
     pred_dict = pipeliner_pred.predict(index_dict, {'window': pred_window})
+    print('Regressions on forcast...')
     regr_dict = pipeliner_regr.predict(pred_dict, {})
 
     # Dealing with strategy
+    print('Loading cointegration pairs...')
     df_coint = pynance.coint.load_coint_file(parameters['general']['coint_name'])
 
     selected_feature = parameters['strategy']['feature']
@@ -39,16 +44,19 @@ def main(path_to_cfg):
     for key, df_ in regr_dict.items():
         regr_dict_arr[key] = df_[selected_feature].values[-pred_window:]
     
+    print('Compute best actions...')
     df_best_action = pynance.strategy.basic.get_best_action(
             df_coint,
             regr_dict_arr,
             **parameters['strategy']['best_action']
     )
+    print(f'Savint to {results_dir} directory.')
     df_best_action.to_csv(results_dir / 'best_action.csv')
 
     # Plots - prediction using the regression models are done 
     # because it gives a hint on results quality when compared to the truth 
     # that we have.
+    print(f'Plotting results... Results directory: {results_dir}')
     preds_passed = pipeliner_regr.predict(index_dict, {})    
     dates = index_dict[index_name].index.to_pydatetime()
     init_date = dates[-1]
@@ -78,6 +86,8 @@ def main(path_to_cfg):
         },
         results_dir / f'{index_name}.png'
     )
+
+    print('------------------ END -----------------\n')
 
     return True
 
