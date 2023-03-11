@@ -4,7 +4,14 @@ import pandas as pd
 import datetime
 import tqdm
 
+""" Main function to run the co-integration process.
+"""
 def main(path_to_cfg):
+    """ Take a path toward a configuration file and load it. Then, it achives the co-integration according to the specifications in the configuration file.
+
+    Args:
+        path_to_cfg (pathlib.Path): Path to the configuration file.
+    """
     print('\n#------------------ COINTEGRATION PROCESS -----------------#\n')
 
     # General parameters
