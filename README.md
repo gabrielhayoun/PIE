@@ -57,6 +57,8 @@ Note : ctrl + h permet d'afficher les fichiers cachés (sur linux du moins). Sin
 Voir par exemple ce [lien](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/). Attention a bien ajouter pour nom de variable `USERCFG`.
 
 ## Utilisation
+
+### Généralités
 Le package s'utilise en ligne de commande, à partir de fichiers de configuraton que l'utilisateur modifie.
 
 Une fois l'installation effectuée, depuis le scipt `run.py` qui utilise le package pynance:
@@ -84,10 +86,27 @@ Un dossier spécifique à la tentative est créé et contiendra les paramètres 
 
 Des exemple de fichier de configuration sont disponibles [ici](config_files/)
 
+### Utilisation des fichiers de configuration
+```python:/pynance/config/spec_coint.cfg
+```
+
+```python:/pynance/config/spec_train.cfg
+```
+
+```python:/pynance/config/spec_infer.cfg
+```
+
+```python:/pynance/config/spec_crypto.cfg
+```
+
 ## Description du package
 Se référer à:
 - [documentation](pynance/docs/build/html) depuis le répertoire et ouvrir le fichier `index.html`.
 - [documentation depuis git](http://htmlpreview.github.io/?https://github.com/gabrielhayoun/PIE/blob/paul/pynance/docs/build/html/index.html)
+
+## Modification du package
+### Ajout de modèles
+### Ajout de données
 
 ## Auteurs
 - [CALOT Paul](https://www.linkedin.com/in/paul-calot-43549814b/)
