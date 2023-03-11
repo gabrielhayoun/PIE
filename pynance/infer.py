@@ -7,7 +7,7 @@ import pynance
 """ 
 1) Read params from config files
 2) get models path from params
-3) Load prediction model and regression models
+3) Load forecasting model and regression models
 4) Make prediction
 5) Call strategy
 6) Save results
@@ -92,7 +92,7 @@ def main(path_to_cfg):
     return True
 
 def fetch_inference_model(parameters):
-    prediction_model = parameters['inference']['prediction_model']
+    prediction_model = parameters['inference']['forecasting_model']
     pred_root_dir_results = (pynance.utils.user.get_path_to_results() / prediction_model)
 
     regression_model = parameters['inference']['regression_model']

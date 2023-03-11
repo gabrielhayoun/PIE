@@ -32,13 +32,13 @@
   <h1>Source code for pynance.utils.conventions</h1><div class="highlight"><pre>
 <span></span><span class="n">date_name</span> <span class="o">=</span> <span class="s2">&quot;Date&quot;</span>
 <span class="n">close_name</span> <span class="o">=</span> <span class="s2">&quot;Close&quot;</span>
-<span class="n">supported_tasks</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="s1">&#39;regression&#39;</span><span class="p">)</span>
+<span class="n">supported_tasks</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;forecasting&#39;</span><span class="p">,</span> <span class="s1">&#39;regression&#39;</span><span class="p">)</span>
 <span class="n">supported_frameworks</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;pytorch&#39;</span><span class="p">,</span> <span class="s1">&#39;sklearn&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="get_dataloader_from_task"><a class="viewcode-back" href="../../../pynance.utils.html#pynance.utils.conventions.get_dataloader_from_task">[docs]</a><span class="k">def</span> <span class="nf">get_dataloader_from_task</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
     <span class="kn">import</span> <span class="nn">pynance</span>
     <span class="k">assert</span><span class="p">(</span><span class="n">task</span> <span class="ow">in</span> <span class="n">supported_tasks</span><span class="p">)</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;prediction&#39;</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;forecasting&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pynance</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">dataloaders</span><span class="o">.</span><span class="n">PredictionDataLoader</span>
     <span class="k">elif</span><span class="p">(</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;regression&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">pynance</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">dataloaders</span><span class="o">.</span><span class="n">RegressionDataLoader</span>

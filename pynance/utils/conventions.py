@@ -1,12 +1,12 @@
 date_name = "Date"
 close_name = "Close"
-supported_tasks = ('prediction', 'regression')
+supported_tasks = ('forecasting', 'regression')
 supported_frameworks = ('pytorch', 'sklearn')
 
 def get_dataloader_from_task(task):
     import pynance
     assert(task in supported_tasks)
-    if(task == 'prediction'):
+    if(task == 'forecasting'):
         return pynance.utils.datasets.dataloaders.PredictionDataLoader
     elif(task == 'regression'):
         return pynance.utils.datasets.dataloaders.RegressionDataLoader
