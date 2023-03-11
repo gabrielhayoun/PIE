@@ -71,7 +71,7 @@ Processus possibles (`-k`): train, infer, coint
 
 Exemple:
 ```shell
-python run.py -n basic_pred -k train
+python run.py -n basic_forecast -k train
 python run.py -n basic_regr -k train
 python run.py -n coint -k coint
 python run.py -n basic_infer -k infer
@@ -87,17 +87,11 @@ Un dossier spécifique à la tentative est créé et contiendra les paramètres 
 Des exemple de fichier de configuration sont disponibles [ici](config_files/)
 
 ### Utilisation des fichiers de configuration
-```python:/pynance/config/spec_coint.cfg
-```
-
-```python:/pynance/config/spec_train.cfg
-```
-
-```python:/pynance/config/spec_infer.cfg
-```
-
-```python:/pynance/config/spec_crypto.cfg
-```
+Se référer aux spécifications de ces fichiers de configuration pour plus d'information.
+- [train](pynance/config/spec_train.cfg)
+- [infer](pynance/config/spec_infer.cfg)
+- [coint](pynance/config/spec_coint.cfg)
+- [crypto](pynance/config/spec_crypto.cfg)
 
 ## Description du package
 Se référer à:
