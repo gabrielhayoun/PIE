@@ -75,13 +75,21 @@ Processus possibles (`-k`): train, infer, coint
 
 Exemple:
 ```shell
-python run.py -n basic_forecast -k train
-python run.py -n basic_regr -k train
-python run.py -n coint -k coint
-python run.py -n basic_infer -k infer
+python run.py -n techus_forecast -k train
+python run.py -n techus_regr -k train
+python run.py -n techus_coint -k coint
+python run.py -n techus_infer -k infer
+```
+Des exemples sont donnés également dans le [Makefile](Makefile). Vous pouvez notamment, depuis le terminal à la racine du projet, lancer `make runs`, ce qui a pour effet de lancer trois runs sur 1) 8 entreprises de technologies des USA (Nasda), 2) 5 entreprises du luxe français (CAC40), 3) 3 entreprises français du secteur de la défense (CAC40).
+
+Le `make runs` se découpe ainsi en trois appels:
+```shell
+make techus_run
+make luxefr_run
+make deffr_run
 ```
 
-Cet exemple est donné dans le Makefile et peut être lancé en tapant `make basic_run`. Cela permet d'entraîner d'abord un modèle de  prédiction, puis des modèles de régression, de calculer les scores de co-intégration pour les paires possibles et enfin d'utiliser tout cela pour:
+Chaque appel permet d'entraîner d'abord un modèle de prédiction de cours futur, puis des modèles de régression, de calculer les scores de co-intégration pour les paires possibles et enfin d'utiliser tout cela pour:
 1) Prédire le cours du marché sur les prochains jours
 2) Prédire les cours des actions à partir de ces marchés en utilisant les modèles de régression
 3) Et enfin produire une stratégie.
