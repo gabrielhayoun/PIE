@@ -36,15 +36,16 @@ class Preprocesser:
         assert(self.features_info is not None)
         if(self.scale == 'min-max'):
             scaling_class = sklearn.preprocessing.MinMaxScaler
+            params = {'feature_range': (-1, 1)}
         elif(self.scale == 'norm'):
             scaling_class = sklearn.preprocessing.StandardScaler
-        
+            params = {}
         if(self.scale == 'None'):
             self.key_to_scaler = None
         else:
             key_to_scaler = {}
             for key, df_ in data.items():                                                                                                                                                                                                           
-                key_to_scaler[key] = scaling_class()
+                key_to_scaler[key] = scaling_class(**params)
                 array_to_scale = df_[self.features_info[1]].values
                 key_to_scaler[key].fit(array_to_scale)
         self.key_to_scaler = key_to_scaler
