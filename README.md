@@ -4,17 +4,16 @@ Dans le cadre du *Projet Ingénierie et Entreprise* à l'ISAE SUPAERO en derniè
 ## Installation
 
 ### Environnement conda
-> pip install ccxt
 Modules nécessaires et installation dans un conda env :
 ```shell
-conda create -n pienv python==3.9 pandas matplotlib yfinance pandas-datareader seaborn scikit-learn ipykernel ipympl configobj tqdm -c conda-forge -c anaconda -y
+conda create -n pienv python==3.9 pandas matplotlib yfinance pandas-datareader seaborn scikit-learn ipykernel ipympl configobj tqdm pip-ccxt  -c conda-forge -c anaconda -c rodgomesc -y
 ```
 Puis activer le :
 ```shell
 conda activate pienv 
 ```
 
-Ensuite installer la version de pytorch adaptée à votre système ([ici](https://pytorch.org/)) et [tensorboard](https://pytorch.org/tutorials/recipes/recipes/tensorboard_with_pytorch.html) (`pip install tensorboard`).
+Ensuite installer la version de pytorch adaptée à votre système ([ici](https://pytorch.org/)) et [tensorboard](https://pytorch.org/tutorials/recipes/recipes/tensorboard_with_pytorch.html) (`pip install tensorboard` devrait suffire).
 
 Pour finir, installer le package `pynance` en utilisant le [Makefile](Makefile.md) depuis le dossier où se trouve le Makefile.
 ```shell
