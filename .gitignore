@@ -1,6 +1,7 @@
 dist/
-build/
+#build/
 **__pycache__/
 *.egg-info/
 *.DS_Store
-
+DATA/
+RESULTS/
