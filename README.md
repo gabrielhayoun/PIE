@@ -109,9 +109,7 @@ Se référer aux spécifications de ces fichiers de configuration pour plus d'in
 - [crypto](pynance/config/spec_crypto.cfg)
 
 ## Description du package
-Se référer à:
-- [documentation](pynance/docs/build/html) depuis le répertoire et ouvrir le fichier `index.html`.
-- [documentation depuis git](http://htmlpreview.github.io/?https://github.com/gabrielhayoun/PIE/blob/paul/pynance/docs/build/html/index.html)
+Se référer à: [documentation](https://gabrielhayoun.github.io/PIE/index.html)
 
 ## Modification du package
 ### Ajout de modèles
