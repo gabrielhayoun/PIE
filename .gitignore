@@ -1,0 +1,8 @@
+build/
+DATA/
+dist/
+docs/
+RESULTS/
+src/
+**.ipynb
+**.txt

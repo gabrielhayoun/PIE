@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pynance package &mdash; Finance Python Tools 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pynance.config package" href="pynance.config.html" />
+    <link rel="prev" title="src" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Finance Python Tools
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pynance package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pynance.config.html">pynance.config package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.data.html">pynance.data package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html">pynance.model package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.strategy.html">pynance.strategy package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html">pynance.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pynance.coint">pynance.coint module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.coint.convert_dict_to_df_with_feature"><code class="docutils literal notranslate"><span class="pre">convert_dict_to_df_with_feature()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.coint.load_coint_file"><code class="docutils literal notranslate"><span class="pre">load_coint_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.coint.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.coint.save_coint"><code class="docutils literal notranslate"><span class="pre">save_coint()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pynance.crypto">pynance.crypto module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.crypto.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pynance.infer">pynance.infer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.infer.check_coherence_and_return_data"><code class="docutils literal notranslate"><span class="pre">check_coherence_and_return_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.infer.fetch_inference_model"><code class="docutils literal notranslate"><span class="pre">fetch_inference_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.infer.get_parameters"><code class="docutils literal notranslate"><span class="pre">get_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.infer.get_pipeliner"><code class="docutils literal notranslate"><span class="pre">get_pipeliner()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.infer.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.infer.replace_parameters_for_inference"><code class="docutils literal notranslate"><span class="pre">replace_parameters_for_inference()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pynance.train">pynance.train module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pynance.train.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pynance">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Finance Python Tools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">pynance package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pynance.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pynance-package">
+<h1>pynance package<a class="headerlink" href="#pynance-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pynance.config.html">pynance.config package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pynance.config.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.config.html#module-pynance.config.cfg_reader">pynance.config.cfg_reader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.config.html#pynance.config.cfg_reader.check_actions_file_name"><code class="docutils literal notranslate"><span class="pre">check_actions_file_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.config.html#pynance.config.cfg_reader.check_date"><code class="docutils literal notranslate"><span class="pre">check_date()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.config.html#pynance.config.cfg_reader.check_date_format"><code class="docutils literal notranslate"><span class="pre">check_date_format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.config.html#pynance.config.cfg_reader.read"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.config.html#module-pynance.config">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pynance.data.html">pynance.data package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pynance.data.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.data.html#module-pynance.data.crypto">pynance.data.crypto module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.data.html#pynance.data.crypto.format_crypto_df"><code class="docutils literal notranslate"><span class="pre">format_crypto_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.data.html#pynance.data.crypto.get_bid_ask"><code class="docutils literal notranslate"><span class="pre">get_bid_ask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.data.html#pynance.data.crypto.get_crypto_data"><code class="docutils literal notranslate"><span class="pre">get_crypto_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.data.html#pynance.data.crypto.get_exchange_object_from_name"><code class="docutils literal notranslate"><span class="pre">get_exchange_object_from_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.data.html#pynance.data.crypto.get_last_bid_ask"><code class="docutils literal notranslate"><span class="pre">get_last_bid_ask()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.data.html#module-pynance.data.readers">pynance.data.readers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.data.html#pynance.data.readers.get_financial_datas"><code class="docutils literal notranslate"><span class="pre">get_financial_datas()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.data.html#pynance.data.readers.read_txt"><code class="docutils literal notranslate"><span class="pre">read_txt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.data.html#pynance.data.readers.write_idx_txt"><code class="docutils literal notranslate"><span class="pre">write_idx_txt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.data.html#pynance.data.readers.write_stock_txt"><code class="docutils literal notranslate"><span class="pre">write_stock_txt()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.data.html#module-pynance.data">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pynance.model.html">pynance.model package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pynance.model.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.model.html#module-pynance.model.forecasting">pynance.model.forecasting module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.model.html#pynance.model.forecasting.TFnaive"><code class="docutils literal notranslate"><span class="pre">TFnaive</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.forecasting.TFnaive.forward"><code class="docutils literal notranslate"><span class="pre">TFnaive.forward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.forecasting.TFnaive.init_weights"><code class="docutils literal notranslate"><span class="pre">TFnaive.init_weights()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.forecasting.TFnaive.load"><code class="docutils literal notranslate"><span class="pre">TFnaive.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.forecasting.TFnaive.predict"><code class="docutils literal notranslate"><span class="pre">TFnaive.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.forecasting.TFnaive.save"><code class="docutils literal notranslate"><span class="pre">TFnaive.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.forecasting.TFnaive.training"><code class="docutils literal notranslate"><span class="pre">TFnaive.training</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.model.html#module-pynance.model.metrics">pynance.model.metrics module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.model.html#pynance.model.metrics.r_squared"><code class="docutils literal notranslate"><span class="pre">r_squared()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.model.html#module-pynance.model.regression">pynance.model.regression module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.model.html#pynance.model.regression.MultipleLinearRegression"><code class="docutils literal notranslate"><span class="pre">MultipleLinearRegression</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.regression.MultipleLinearRegression.fit"><code class="docutils literal notranslate"><span class="pre">MultipleLinearRegression.fit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.regression.MultipleLinearRegression.load"><code class="docutils literal notranslate"><span class="pre">MultipleLinearRegression.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.regression.MultipleLinearRegression.pattern"><code class="docutils literal notranslate"><span class="pre">MultipleLinearRegression.pattern</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.regression.MultipleLinearRegression.predict"><code class="docutils literal notranslate"><span class="pre">MultipleLinearRegression.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.regression.MultipleLinearRegression.save"><code class="docutils literal notranslate"><span class="pre">MultipleLinearRegression.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.model.html#pynance.model.regression.MultipleLinearRegression.score"><code class="docutils literal notranslate"><span class="pre">MultipleLinearRegression.score()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.model.html#module-pynance.model">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pynance.strategy.html">pynance.strategy package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pynance.strategy.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.strategy.html#module-pynance.strategy.basic">pynance.strategy.basic module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.strategy.html#pynance.strategy.basic.get_best_action"><code class="docutils literal notranslate"><span class="pre">get_best_action()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.strategy.html#pynance.strategy.basic.get_pairs"><code class="docutils literal notranslate"><span class="pre">get_pairs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.strategy.html#pynance.strategy.basic.get_performance"><code class="docutils literal notranslate"><span class="pre">get_performance()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.strategy.html#module-pynance.strategy.cointegration">pynance.strategy.cointegration module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.strategy.html#pynance.strategy.cointegration.test_cointegration"><code class="docutils literal notranslate"><span class="pre">test_cointegration()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.strategy.html#module-pynance.strategy.live">pynance.strategy.live module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.strategy.html#pynance.strategy.live.get_opportunity"><code class="docutils literal notranslate"><span class="pre">get_opportunity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.strategy.html#pynance.strategy.live.get_zscore"><code class="docutils literal notranslate"><span class="pre">get_zscore()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.strategy.html#module-pynance.strategy">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pynance.utils.html">pynance.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.datasets.html">pynance.utils.datasets package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.datasets.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.datasets.html#module-pynance.utils.datasets.collaters">pynance.utils.datasets.collaters module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.collaters.TimeSeriesCollater"><code class="docutils literal notranslate"><span class="pre">TimeSeriesCollater</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.datasets.html#module-pynance.utils.datasets.dataloaders">pynance.utils.datasets.dataloaders module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader"><code class="docutils literal notranslate"><span class="pre">DataLoader</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.convert_predictions_to_dict"><code class="docutils literal notranslate"><span class="pre">DataLoader.convert_predictions_to_dict()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.get_infer_data"><code class="docutils literal notranslate"><span class="pre">DataLoader.get_infer_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.get_test_data"><code class="docutils literal notranslate"><span class="pre">DataLoader.get_test_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.get_train_data"><code class="docutils literal notranslate"><span class="pre">DataLoader.get_train_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.get_valid_data"><code class="docutils literal notranslate"><span class="pre">DataLoader.get_valid_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.load_data"><code class="docutils literal notranslate"><span class="pre">DataLoader.load_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.load_scaler"><code class="docutils literal notranslate"><span class="pre">DataLoader.load_scaler()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.prepare_infer_data"><code class="docutils literal notranslate"><span class="pre">DataLoader.prepare_infer_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.prepare_test_data"><code class="docutils literal notranslate"><span class="pre">DataLoader.prepare_test_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.prepare_train_data"><code class="docutils literal notranslate"><span class="pre">DataLoader.prepare_train_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.sklearn_return_type"><code class="docutils literal notranslate"><span class="pre">DataLoader.sklearn_return_type</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.supported_frameworks"><code class="docutils literal notranslate"><span class="pre">DataLoader.supported_frameworks</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.DataLoader.torch_return_type"><code class="docutils literal notranslate"><span class="pre">DataLoader.torch_return_type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.PredictionDataLoader"><code class="docutils literal notranslate"><span class="pre">PredictionDataLoader</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.PredictionDataLoader.prepare_infer_data"><code class="docutils literal notranslate"><span class="pre">PredictionDataLoader.prepare_infer_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.PredictionDataLoader.prepare_test_data"><code class="docutils literal notranslate"><span class="pre">PredictionDataLoader.prepare_test_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.PredictionDataLoader.prepare_train_data"><code class="docutils literal notranslate"><span class="pre">PredictionDataLoader.prepare_train_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.PredictionDataLoader.supported_frameworks"><code class="docutils literal notranslate"><span class="pre">PredictionDataLoader.supported_frameworks</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.RegressionDataLoader"><code class="docutils literal notranslate"><span class="pre">RegressionDataLoader</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.RegressionDataLoader.convert_predictions_to_dict"><code class="docutils literal notranslate"><span class="pre">RegressionDataLoader.convert_predictions_to_dict()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.RegressionDataLoader.prepare_infer_data"><code class="docutils literal notranslate"><span class="pre">RegressionDataLoader.prepare_infer_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.RegressionDataLoader.prepare_test_data"><code class="docutils literal notranslate"><span class="pre">RegressionDataLoader.prepare_test_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.RegressionDataLoader.prepare_train_data"><code class="docutils literal notranslate"><span class="pre">RegressionDataLoader.prepare_train_data()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.dataloaders.RegressionDataLoader.supported_frameworks"><code class="docutils literal notranslate"><span class="pre">RegressionDataLoader.supported_frameworks</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.datasets.html#module-pynance.utils.datasets.torch">pynance.utils.datasets.torch module</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.torch.ForecastingInferenceDataset"><code class="docutils literal notranslate"><span class="pre">ForecastingInferenceDataset</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.torch.ForecastingInferenceDataset.get_iterator_of_inputs"><code class="docutils literal notranslate"><span class="pre">ForecastingInferenceDataset.get_iterator_of_inputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="pynance.utils.datasets.html#pynance.utils.datasets.torch.SlidingWindowDataset"><code class="docutils literal notranslate"><span class="pre">SlidingWindowDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.datasets.html#module-pynance.utils.datasets">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.conventions">pynance.utils.conventions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.conventions.get_dataloader_from_task"><code class="docutils literal notranslate"><span class="pre">get_dataloader_from_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.conventions.get_trainer"><code class="docutils literal notranslate"><span class="pre">get_trainer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.dates">pynance.utils.dates module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.dates.get_start_date"><code class="docutils literal notranslate"><span class="pre">get_start_date()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.dates.make_dates"><code class="docutils literal notranslate"><span class="pre">make_dates()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.pipeliners">pynance.utils.pipeliners module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner"><code class="docutils literal notranslate"><span class="pre">Pipeliner</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.analyze"><code class="docutils literal notranslate"><span class="pre">Pipeliner.analyze()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.evaluate"><code class="docutils literal notranslate"><span class="pre">Pipeliner.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.init_analyser"><code class="docutils literal notranslate"><span class="pre">Pipeliner.init_analyser()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.init_dataloader"><code class="docutils literal notranslate"><span class="pre">Pipeliner.init_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.init_model"><code class="docutils literal notranslate"><span class="pre">Pipeliner.init_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.init_trainer"><code class="docutils literal notranslate"><span class="pre">Pipeliner.init_trainer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.load_data"><code class="docutils literal notranslate"><span class="pre">Pipeliner.load_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.load_model_state"><code class="docutils literal notranslate"><span class="pre">Pipeliner.load_model_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.load_scaler"><code class="docutils literal notranslate"><span class="pre">Pipeliner.load_scaler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.predict"><code class="docutils literal notranslate"><span class="pre">Pipeliner.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.pipeliners.Pipeliner.train"><code class="docutils literal notranslate"><span class="pre">Pipeliner.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.plot">pynance.utils.plot module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.plot.plot_losses"><code class="docutils literal notranslate"><span class="pre">plot_losses()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.plot.plot_opportunity"><code class="docutils literal notranslate"><span class="pre">plot_opportunity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.plot.plot_stock_values"><code class="docutils literal notranslate"><span class="pre">plot_stock_values()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.preprocessing">pynance.utils.preprocessing module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.preprocessing.Preprocesser"><code class="docutils literal notranslate"><span class="pre">Preprocesser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.preprocessing.Preprocesser.init_preprocessor"><code class="docutils literal notranslate"><span class="pre">Preprocesser.init_preprocessor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.preprocessing.Preprocesser.inverse_transform"><code class="docutils literal notranslate"><span class="pre">Preprocesser.inverse_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.preprocessing.Preprocesser.inverse_transform_df"><code class="docutils literal notranslate"><span class="pre">Preprocesser.inverse_transform_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.preprocessing.Preprocesser.load"><code class="docutils literal notranslate"><span class="pre">Preprocesser.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.preprocessing.Preprocesser.save"><code class="docutils literal notranslate"><span class="pre">Preprocesser.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.preprocessing.Preprocesser.supported_scalers"><code class="docutils literal notranslate"><span class="pre">Preprocesser.supported_scalers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.preprocessing.Preprocesser.transform"><code class="docutils literal notranslate"><span class="pre">Preprocesser.transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.preprocessing.Preprocesser.transform_df"><code class="docutils literal notranslate"><span class="pre">Preprocesser.transform_df()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.saving">pynance.utils.saving module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.saving.convert_object"><code class="docutils literal notranslate"><span class="pre">convert_object()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.saving.convert_objects"><code class="docutils literal notranslate"><span class="pre">convert_objects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.saving.save_configobj"><code class="docutils literal notranslate"><span class="pre">save_configobj()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.setup">pynance.utils.setup module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.create_and_init_pipeliner"><code class="docutils literal notranslate"><span class="pre">create_and_init_pipeliner()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.get_results_dir"><code class="docutils literal notranslate"><span class="pre">get_results_dir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.setup_data_section"><code class="docutils literal notranslate"><span class="pre">setup_data_section()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.setup_dataloader_section"><code class="docutils literal notranslate"><span class="pre">setup_dataloader_section()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.setup_general_section"><code class="docutils literal notranslate"><span class="pre">setup_general_section()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.setup_inference_section"><code class="docutils literal notranslate"><span class="pre">setup_inference_section()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.setup_model_section"><code class="docutils literal notranslate"><span class="pre">setup_model_section()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.setup_pipeliner_params"><code class="docutils literal notranslate"><span class="pre">setup_pipeliner_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.setup_preprocessor_section"><code class="docutils literal notranslate"><span class="pre">setup_preprocessor_section()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.setup.setup_training_section"><code class="docutils literal notranslate"><span class="pre">setup_training_section()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.trainers">pynance.utils.trainers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.trainers.SklearnTrainer"><code class="docutils literal notranslate"><span class="pre">SklearnTrainer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.trainers.SklearnTrainer.evaluate"><code class="docutils literal notranslate"><span class="pre">SklearnTrainer.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.trainers.SklearnTrainer.train"><code class="docutils literal notranslate"><span class="pre">SklearnTrainer.train()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.trainers.TorchTrainer"><code class="docutils literal notranslate"><span class="pre">TorchTrainer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.trainers.TorchTrainer.evaluate"><code class="docutils literal notranslate"><span class="pre">TorchTrainer.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.trainers.TorchTrainer.train"><code class="docutils literal notranslate"><span class="pre">TorchTrainer.train()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.trainers.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.trainers.Trainer.evaluate"><code class="docutils literal notranslate"><span class="pre">Trainer.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pynance.utils.html#pynance.utils.trainers.Trainer.train"><code class="docutils literal notranslate"><span class="pre">Trainer.train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.transform">pynance.utils.transform module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.transform.get_sliding_windows"><code class="docutils literal notranslate"><span class="pre">get_sliding_windows()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils.user">pynance.utils.user module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.user.get_item_from_user_cfg"><code class="docutils literal notranslate"><span class="pre">get_item_from_user_cfg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.user.get_path_to_config_files"><code class="docutils literal notranslate"><span class="pre">get_path_to_config_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.user.get_path_to_data"><code class="docutils literal notranslate"><span class="pre">get_path_to_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.user.get_path_to_pretrained_models"><code class="docutils literal notranslate"><span class="pre">get_path_to_pretrained_models()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.user.get_path_to_results"><code class="docutils literal notranslate"><span class="pre">get_path_to_results()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.user.get_section_from_user_cfg"><code class="docutils literal notranslate"><span class="pre">get_section_from_user_cfg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pynance.utils.html#pynance.utils.user.load_user_cfg"><code class="docutils literal notranslate"><span class="pre">load_user_cfg()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pynance.utils.html#module-pynance.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-pynance.coint">
+<span id="pynance-coint-module"></span><h2>pynance.coint module<a class="headerlink" href="#module-pynance.coint" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.coint.convert_dict_to_df_with_feature">
+<span class="sig-prename descclassname"><span class="pre">pynance.coint.</span></span><span class="sig-name descname"><span class="pre">convert_dict_to_df_with_feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dicts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.coint.convert_dict_to_df_with_feature" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.coint.load_coint_file">
+<span class="sig-prename descclassname"><span class="pre">pynance.coint.</span></span><span class="sig-name descname"><span class="pre">load_coint_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.coint.load_coint_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.coint.main">
+<span class="sig-prename descclassname"><span class="pre">pynance.coint.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_cfg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.coint.main" title="Permalink to this definition"></a></dt>
+<dd><p>Take a path toward a configuration file and load it. Then, it achives the co-integration according to the specifications in the configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path_to_cfg</strong> (<em>pathlib.Path</em>) – Path to the configuration file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.coint.save_coint">
+<span class="sig-prename descclassname"><span class="pre">pynance.coint.</span></span><span class="sig-name descname"><span class="pre">save_coint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.coint.save_coint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynance.crypto">
+<span id="pynance-crypto-module"></span><h2>pynance.crypto module<a class="headerlink" href="#module-pynance.crypto" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.crypto.main">
+<span class="sig-prename descclassname"><span class="pre">pynance.crypto.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_cfg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.crypto.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynance.infer">
+<span id="pynance-infer-module"></span><h2>pynance.infer module<a class="headerlink" href="#module-pynance.infer" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.infer.check_coherence_and_return_data">
+<span class="sig-prename descclassname"><span class="pre">pynance.infer.</span></span><span class="sig-name descname"><span class="pre">check_coherence_and_return_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regr_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.infer.check_coherence_and_return_data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.infer.fetch_inference_model">
+<span class="sig-prename descclassname"><span class="pre">pynance.infer.</span></span><span class="sig-name descname"><span class="pre">fetch_inference_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.infer.fetch_inference_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.infer.get_parameters">
+<span class="sig-prename descclassname"><span class="pre">pynance.infer.</span></span><span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">influence_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dir_results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.infer.get_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.infer.get_pipeliner">
+<span class="sig-prename descclassname"><span class="pre">pynance.infer.</span></span><span class="sig-name descname"><span class="pre">get_pipeliner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.infer.get_pipeliner" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.infer.main">
+<span class="sig-prename descclassname"><span class="pre">pynance.infer.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_cfg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.infer.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.infer.replace_parameters_for_inference">
+<span class="sig-prename descclassname"><span class="pre">pynance.infer.</span></span><span class="sig-name descname"><span class="pre">replace_parameters_for_inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infer_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.infer.replace_parameters_for_inference" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynance.train">
+<span id="pynance-train-module"></span><h2>pynance.train module<a class="headerlink" href="#module-pynance.train" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pynance.train.main">
+<span class="sig-prename descclassname"><span class="pre">pynance.train.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_cfg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pynance.train.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pynance">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pynance" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pynance.config.html" class="btn btn-neutral float-right" title="pynance.config package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Paul Calot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
